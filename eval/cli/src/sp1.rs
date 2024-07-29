@@ -1,6 +1,6 @@
 use sp1_core::utils;
-use sp1_prover::{utils::get_cycles, SP1Prover, SP1Stdin};
-use std::env;
+use sp1_core::runtime::SP1Context;
+use sp1_prover::{utils::get_cycles, SP1Prover, SP1Stdin, components::DefaultProverComponents};
 use std::fs;
 
 use crate::{
@@ -30,16 +30,21 @@ impl PerformanceReportGenerator for SP1PerformanceReportGenerator {
         let cycles = get_cycles(&elf, &stdin);
 
         // Setup the prover.
-        let prover = SP1Prover::new();
+        // let client = ProverClient::new();
+        let prover = SP1Prover::<DefaultProverComponents>::new();
         let (pk, vk) = prover.setup(&elf);
 
         let stdin = SP1Stdin::new();
+        let ctx = SP1Context::default();
         // Execute the program.
-        let (_, execution_duration) = time_operation(|| SP1Prover::execute(&elf, &stdin));
+        let (_, execution_duration) = time_operation(|| SP1Prover::<DefaultProverComponents>::execute(&elf, &stdin, ctx));
 
         // Generate the core proof ("leaf" stage).
+        let prover_opts = utils::SP1ProverOpts::default();
         println!("Proving core");
-        let (proof, prove_core_duration) = time_operation(|| prover.prove_core(&pk, &stdin));
+        let ctx = SP1Context::default();
+        let (proof, prove_core_duration) = time_operation(|| prover.prove_core(&pk, &stdin, prover_opts, ctx));
+        let proof = proof.unwrap();
         let core_bytes = bincode::serialize(&proof).unwrap();
 
         let (_, verify_core_duration) = time_operation(|| {
@@ -57,7 +62,8 @@ impl PerformanceReportGenerator for SP1PerformanceReportGenerator {
 
         println!("Generating reduce proofs (recursive stage)");
         let (reduce_proof, reduce_duration) =
-            time_operation(|| prover.compress(&vk, proof, vec![]));
+            time_operation(|| prover.compress(&vk, proof, vec![], prover_opts));
+        let reduce_proof = reduce_proof.unwrap();
         let reduce_proof_size = bincode::serialize(&reduce_proof).unwrap();
         println!("Recursive proof size: {}", reduce_proof_size.len());
 

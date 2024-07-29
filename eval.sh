@@ -41,9 +41,9 @@ echo "Running eval script"
 
 # Runs the eval for the specified program, prover & hash function with conditional compilation based on the feature flag.
 
-RUST_LOG=info RUSTFLAGS='-C target-cpu=native' cargo run -F metal -p eval --release --no-default-features --features $2 -- --program $1 --prover $2 --hashfn $3 --shard-size $4 --filename $5
+# RUST_LOG=info RUSTFLAGS='-C target-cpu=native' cargo run -F metal -p eval --release --no-default-features --features $2 -- --program $1 --prover $2 --hashfn $3 --shard-size $4 --filename $5
 # RUST_LOG=info RUSTFLAGS='-C target-cpu=native' cargo run -F cuda -p eval --release --no-default-features --features $2 -- --program $1 --prover $2 --hashfn $3 --shard-size $4 --filename $5
-# RUST_LOG=info RUSTFLAGS='-C target-cpu=native' cargo run -p eval --release --no-default-features --features $2 -- --program $1 --prover $2 --hashfn $3 --shard-size $4 --filename $5
+RUST_LOG=info RUSTFLAGS='-C target-cpu=native' cargo run -p eval --release --no-default-features --features $2 -- --program $1 --prover $2 --hashfn $3 --shard-size $4 --filename $5
 
 cd ../
 
