@@ -25,6 +25,10 @@ loop-jolt = { path = "../../programs/loop-jolt", optional = true }
 tendermint-jolt = { path = "../../programs/tendermint-jolt", optional = true }
 sha2-chain-jolt = { path = "../../programs/sha2-chain-jolt", optional = true }
 
+powdr-number = { git = "https://github.com/powdr-labs/powdr.git", optional = true }
+powdr-riscv = { git = "https://github.com/powdr-labs/powdr.git", optional = true }
+powdr-pipeline = { git = "https://github.com/powdr-labs/powdr.git", optional = true, features = ["plonky3"] }
+
 [features]
 # Note: `jolt-zkvm` does not need to be in the default features, but we add it here for the following reasons:
 # - The `jolt::provable` macro requires a `jolt` dependency to be compiled with the "host" feature in the same workspace
@@ -35,6 +39,8 @@ risc0 = ["risc0-zkvm"]
 sp1 = ["sp1-prover"]
 # The name of this feature flag is jolt-zkvm to avoid conflicting with the jolt crate.
 jolt-zkvm = ["jolt", "fibonacci-jolt", "loop-jolt", "tendermint-jolt", "sha2-chain-jolt"]
+
+powdr = ["powdr-riscv", "powdr-pipeline", "powdr-number"]
 
 cuda = ["risc0-zkvm/cuda"]
 metal = ["risc0-zkvm/metal"]

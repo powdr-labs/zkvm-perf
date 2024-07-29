@@ -1,6 +1,8 @@
 #![no_main]
+#![cfg_attr(feature = "powdr", no_std)]
 
-use std::hint::black_box;
+#[cfg(feature = "powdr")]
+extern crate powdr_riscv_runtime;
 
 #[cfg(feature = "risc0")]
 risc0_zkvm::guest::entry!(main);
@@ -19,7 +21,20 @@ fn fibonacci(n: u32) -> u32 {
     b
 }
 
+const N: u32 = 3;
+
+#[cfg(feature = "powdr")]
+#[no_mangle]
 pub fn main() {
-    let result = black_box(fibonacci(black_box(300000)));
+    use core::hint::black_box;
+    use powdr_riscv_runtime::print;
+    let result = black_box(fibonacci(black_box(N)));
+    print!("result: {}", result);
+}
+
+#[cfg(not(feature = "powdr"))]
+pub fn main() {
+    use std::hint::black_box;
+    let result = black_box(fibonacci(black_box(N)));
     println!("result: {}", result);
 }

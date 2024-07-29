@@ -22,7 +22,7 @@ if [ "$2" == "sp1" ]; then
     RUSTFLAGS="-C passes=loweratomic -C link-arg=-Ttext=0x00200800 -C panic=abort" \
         RUSTUP_TOOLCHAIN=succinct \
         CARGO_BUILD_TARGET=riscv32im-succinct-zkvm-elf \
-        cargo build --release --ignore-rust-version --features $2
+        cargo build --release --ignore-rust-version --no-default-features --features $2
 fi
 # If the prover is risc0, then build the program.
 if [ "$2" == "risc0" ]; then
@@ -31,7 +31,7 @@ if [ "$2" == "risc0" ]; then
     RUSTFLAGS="-C passes=loweratomic -C link-arg=-Ttext=0x00200800 -C panic=abort" \
         RUSTUP_TOOLCHAIN=risc0 \
         CARGO_BUILD_TARGET=riscv32im-risc0-zkvm-elf \
-        cargo build --release --ignore-rust-version --features $2
+        cargo build --release --ignore-rust-version --no-default-features --features $2
 fi
 
 

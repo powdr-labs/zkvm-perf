@@ -6,14 +6,18 @@ use std::{
     time::{self, Instant},
 };
 
-#[cfg(feature = "jolt-zkvm")]
-mod jolt;
+// TODO: update/fix jolt
+// #[cfg(feature = "jolt-zkvm")]
+// mod jolt;
 
 #[cfg(feature = "risc0")]
 mod risc0;
 
 #[cfg(feature = "sp1")]
 mod sp1;
+
+#[cfg(feature = "powdr")]
+mod powdr;
 
 pub trait PerformanceReportGenerator {
     fn get_report(args: &EvalArgs) -> PerformanceReport;
@@ -52,6 +56,7 @@ enum ProverId {
     Risc0,
     SP1,
     JoltZkvm,
+    Powdr,
 }
 
 impl ProverId {
@@ -61,6 +66,7 @@ impl ProverId {
             ProverId::Risc0 => "risc0".to_string(),
             ProverId::SP1 => "sp1".to_string(),
             ProverId::JoltZkvm => "jolt-zkvm".to_string(),
+            ProverId::Powdr => "powdr".to_string(),
         }
     }
 }
@@ -231,6 +237,16 @@ fn main() {
                 jolt::JoltPerformanceReportGenerator::get_report(&args)
             }
             #[cfg(not(feature = "jolt-zkvm"))]
+            {
+                PerformanceReport::default()
+            }
+        }
+        ProverId::Powdr => {
+            #[cfg(feature = "powdr")]
+            {
+                powdr::PowdrPerformanceReportGenerator::get_report(&args)
+            }
+            #[cfg(not(feature = "powdr"))]
             {
                 PerformanceReport::default()
             }
