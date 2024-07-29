@@ -15,6 +15,10 @@
 // limitations under the License.
 
 #![no_main]
+#![cfg_attr(feature = "powdr", no_std)]
+
+#[cfg(feature = "powdr")]
+extern crate powdr_riscv_runtime;
 
 #[cfg(feature = "risc0")]
 risc0_zkvm::guest::entry!(main);
@@ -25,9 +29,19 @@ sp1_zkvm::entrypoint!(main);
 #[cfg(target_os = "zkvm")]
 use core::arch::asm;
 
+const ITERATIONS: usize = 3000 * 1024;
+
+#[cfg(not(feature = "powdr"))]
 fn main() {
-    let iterations = 3000 * 1024;
-    for i in 0..iterations {
+    for i in 0..ITERATIONS {
+        memory_barrier(&i);
+    }
+}
+
+#[cfg(feature = "powdr")]
+#[no_mangle]
+fn main() {
+    for i in 0..ITERATIONS {
         memory_barrier(&i);
     }
 }
