@@ -21,7 +21,7 @@ fn fibonacci(n: u32) -> u32 {
     b
 }
 
-const N: u32 = 3;
+const N: u32 = 300_000;
 
 #[cfg(feature = "powdr")]
 #[no_mangle]
