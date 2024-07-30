@@ -12,6 +12,12 @@ pub struct PowdrPerformanceReportGenerator {}
 fn compile_program<F: FieldElement>(program: &ProgramId) -> Option<(PathBuf, String)> {
     println!("compiling {}...", program.to_string());
 
+    let program = match program {
+        ProgramId::Tendermint => format!("../programs/{}-powdr", program.to_string()),
+        // ProgramId::Reth => ,
+        _ => format!("../programs/{}", program.to_string()),
+    };
+
     let program = format!("../programs/{}", program.to_string());
     let output_dir: PathBuf = format!("/tmp/").into();
     let force_overwrite = true;
