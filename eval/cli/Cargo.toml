@@ -25,9 +25,9 @@ loop-jolt = { path = "../../programs/loop-jolt", optional = true }
 tendermint-jolt = { path = "../../programs/tendermint-jolt", optional = true }
 sha2-chain-jolt = { path = "../../programs/sha2-chain-jolt", optional = true }
 
-powdr-number = { git = "https://github.com/powdr-labs/powdr.git", optional = true }
-powdr-riscv = { git = "https://github.com/powdr-labs/powdr.git", optional = true }
-powdr-pipeline = { git = "https://github.com/powdr-labs/powdr.git", optional = true, features = ["plonky3"] }
+powdr-number = { git = "https://github.com/powdr-labs/powdr.git", branch = "poseidon-witness", optional = true }
+powdr-riscv = { git = "https://github.com/powdr-labs/powdr.git", branch = "poseidon-witness", optional = true }
+powdr-pipeline = { git = "https://github.com/powdr-labs/powdr.git", branch = "poseidon-witness", optional = true, features = ["plonky3", "halo2"] }
 
 [features]
 # Note: `jolt-zkvm` does not need to be in the default features, but we add it here for the following reasons:

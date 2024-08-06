@@ -1,11 +1,11 @@
 use std::path::PathBuf;
+use std::time::{Duration, Instant};
 
 use crate::HashFnId;
-use crate::{
-    get_elf, time_operation, EvalArgs, PerformanceReport, PerformanceReportGenerator, ProgramId,
-};
+use crate::{time_operation, EvalArgs, PerformanceReport, PerformanceReportGenerator, ProgramId};
 
 use powdr_number::{Bn254Field, FieldElement, GoldilocksField};
+use powdr_pipeline::Pipeline;
 
 pub struct PowdrPerformanceReportGenerator {}
 
@@ -21,9 +21,9 @@ fn compile_program<F: FieldElement>(program: &ProgramId) -> Option<(PathBuf, Str
     let program = format!("../programs/{}", program.to_string());
     let output_dir: PathBuf = format!("/tmp/").into();
     let force_overwrite = true;
-    let runtime = powdr_riscv::Runtime::base();
+    let runtime = powdr_riscv::Runtime::base().with_poseidon(true);
     let via_elf = true;
-    let with_bootloader = false;
+    let with_bootloader = true;
 
     let res = powdr_riscv::compile_rust::<F>(
         program.as_str(),
@@ -38,25 +38,153 @@ fn compile_program<F: FieldElement>(program: &ProgramId) -> Option<(PathBuf, Str
 
 impl PerformanceReportGenerator for PowdrPerformanceReportGenerator {
     fn get_report(args: &EvalArgs) -> PerformanceReport {
+        assert!(args.hashfn == HashFnId::Poseidon);
+
         // generate powdr asm
         let (path, asm) = compile_program::<GoldilocksField>(&args.program).unwrap();
 
-        // run powdr pipeline
+        let dir = "/tmp";
+
+        // build the powdr pipeline
         let force_overwrite = true;
         let backend = powdr_pipeline::BackendType::Plonky3Composite;
+        // let backend = powdr_pipeline::BackendType::EStarkStarkyComposite;
+        // let backend = powdr_pipeline::BackendType::Halo2Composite;
         let mut pipeline = powdr_pipeline::Pipeline::<GoldilocksField>::default()
             .from_asm_string(asm, Some(path))
-            .with_output("/tmp/".into(), force_overwrite)
+            .with_output(dir.into(), force_overwrite)
             .with_prover_inputs(vec![])
             // .with_setup_file()
-            .with_backend(backend, Some("stark_gl".into()))
+            .with_backend(backend, None)
             .with_pil_object();
 
-        let (witness, witgen_time) = time_operation(|| pipeline.compute_witness().unwrap());
-        println!("witgen time: {:?}", witgen_time);
-        let (proof, proof_time) = time_operation(|| pipeline.compute_proof().unwrap());
-        println!("proof time: {:?}", proof_time);
+        // execute with continuations
+        let start = Instant::now();
+        let bootloader_inputs =
+            powdr_riscv::continuations::rust_continuations_dry_run(&mut pipeline, None);
 
-        panic!()
+        // TODO: is this the correct len?
+        let trace_len: u64 = bootloader_inputs.iter().map(|(_, n)| n).sum();
+        let num_chunks = bootloader_inputs.len();
+        println!("trace length: {trace_len}");
+
+        let generate_witness =
+            |mut pipeline: Pipeline<GoldilocksField>| -> Result<(), Vec<String>> {
+                pipeline.compute_witness().unwrap();
+                Ok(())
+            };
+        // this will save the witness for each chunk N in its own `chunk_N` directory
+        powdr_riscv::continuations::rust_continuations(
+            pipeline.clone(),
+            generate_witness,
+            bootloader_inputs,
+        )
+        .expect("error executing with continuations");
+        let witgen_time = start.elapsed();
+        println!("continuations witgen time: {witgen_time:?}");
+
+        // compute proof for each chunk
+        let mut proof_duration = Duration::default();
+        let mut proof_size = 0;
+        let mut proofs = vec![];
+        for chunk in 0..num_chunks {
+            let witness_dir: PathBuf = format!("{dir}/chunk_{}", chunk).into();
+            let mut pipeline = pipeline
+                .clone()
+                .read_witness(&witness_dir)
+                .with_output(witness_dir, force_overwrite);
+            let (proof, chunk_duration) =
+                time_operation(|| pipeline.compute_proof().unwrap().clone());
+            println!("chunk {chunk} proof time: {chunk_duration:?}");
+            let chunk_size = proof.len();
+            proofs.push(proof);
+            println!("chunk size: {chunk_size}");
+            proof_duration += chunk_duration;
+            proof_size += chunk_size;
+        }
+        println!("total proof time: {proof_duration:?}");
+        println!("total proof size: {proof_size}");
+
+        // verify each chunk
+        let mut verification_time = Duration::default();
+        {
+            let mut writer = std::fs::File::create("vkey.bin").unwrap();
+            pipeline.export_verification_key(&mut writer).unwrap();
+        }
+        for chunk in 0..num_chunks {
+            let (_, time) = time_operation(|| {
+                pipeline.verify(&proofs[chunk], &[vec![]]).unwrap();
+            });
+            println!("chunk {chunk} verification time: {time:?}");
+            verification_time += time;
+        }
+
+        // verify
+        // {
+        //     let mut writer = std::fs::File::create("vkey.bin").unwrap();
+        //     pipeline.export_verification_key(&mut writer).unwrap();
+        // }
+        // let mut pipeline = pipeline
+        //     .with_backend(backend, None)
+        //     .with_vkey_file(Some("vkey.bin".into()));
+
+        // let (_, verification_time) = time_operation(|| {
+        //     pipeline.verify(&proof, &[vec![]]).unwrap();
+        // });
+
+        PerformanceReport {
+            // The program that is being evaluated.
+            program: args.program.to_string(),
+
+            // The prover that is being evaluated.
+            prover: args.prover.to_string(),
+
+            // The hash function that is being evaluated.
+            hashfn: args.hashfn.to_string(),
+
+            // The shard size that is being evaluated.
+            shard_size: args.shard_size,
+
+            // TODO: continuations
+            // The number of shards.
+            shards: 1,
+
+            // TODO: reported number of cycles
+            cycles: trace_len,
+
+            // The reported speed in cycles per second.
+            speed: (trace_len as f64) / proof_duration.as_secs_f64(),
+
+            // The reported duration of the execution in seconds.
+            execution_duration: witgen_time.as_secs_f64(),
+
+            // The reported duration of the prover in seconds.
+            prove_duration: proof_duration.as_secs_f64(),
+
+            // TODO: reported duration of the core proving time in seconds.
+            core_prove_duration: proof_duration.as_secs_f64(),
+
+            // TODO: reported duration of the verifier in seconds.
+            core_verify_duration: verification_time.as_secs_f64(),
+
+            // TODO: size of the core proof.
+            core_proof_size: proof_size,
+
+            // reported duration of the recursive proving time in seconds.
+            recursive_prove_duration: proof_duration.as_secs_f64(),
+
+            // reported duration of the verifier in seconds.
+            recursive_verify_duration: verification_time.as_secs_f64(),
+
+            // size of the recursive proof in bytes.
+            recursive_proof_size: proof_size,
+
+            // Only applicable for SP1?
+            compressed_proof_size: None,
+            compressed_proof_duration: None,
+            bn254_compress_duration: Default::default(),
+            bn254_compress_proof_size: Default::default(),
+            groth16_compress_duration: Default::default(),
+        }
     }
 }
