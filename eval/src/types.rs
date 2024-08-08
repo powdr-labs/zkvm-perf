@@ -16,6 +16,7 @@ pub enum ProverId {
     Risc0,
     SP1,
     JoltZkvm,
+    Powdr,
 }
 
 /// An identifier used to select the hash function to evaluate.
@@ -48,6 +49,7 @@ impl ProverId {
             ProverId::Risc0 => "risc0".to_string(),
             ProverId::SP1 => "sp1".to_string(),
             ProverId::JoltZkvm => "jolt-zkvm".to_string(),
+            ProverId::Powdr => "powdr".to_string(),
         }
     }
 }

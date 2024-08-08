@@ -1,6 +1,8 @@
 #[cfg(feature = "jolt-zkvm")]
 mod jolt;
 
+#[cfg(feature = "powdr")]
+mod powdr;
 #[cfg(feature = "risc0")]
 mod risc0;
 #[cfg(feature = "sp1")]
@@ -104,6 +106,16 @@ fn main() {
                 jolt::JoltPerformanceReportGenerator::get_report(&args)
             }
             #[cfg(not(feature = "jolt-zkvm"))]
+            {
+                unreachable!()
+            }
+        }
+        ProverId::Powdr => {
+            #[cfg(feature = "powdr")]
+            {
+                powdr::PowdrEvaluator::eval(&args)
+            }
+            #[cfg(not(feature = "powdr"))]
             {
                 unreachable!()
             }

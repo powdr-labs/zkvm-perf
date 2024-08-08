@@ -1,6 +1,8 @@
-#![no_main]
-
+#[cfg_attr(any(feature = "sp1", feature = "risc0"), no_main)]
 use std::hint::black_box;
+
+#[cfg(feature = "powdr")]
+extern crate powdr_riscv_runtime;
 
 #[cfg(feature = "risc0")]
 risc0_zkvm::guest::entry!(main);

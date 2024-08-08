@@ -36,6 +36,11 @@ loop-jolt = { path = "../programs/loop-jolt", optional = true }
 tendermint-jolt = { path = "../programs/tendermint-jolt", optional = true }
 sha2-chain-jolt = { path = "../programs/sha2-chain-jolt", optional = true }
 
+# powdr
+powdr-number = { git = "https://github.com/powdr-labs/powdr.git", branch = "poseidon-witness", optional = true }
+powdr-riscv = { git = "https://github.com/powdr-labs/powdr.git", branch = "poseidon-witness", optional = true }
+powdr-pipeline = { git = "https://github.com/powdr-labs/powdr.git", branch = "poseidon-witness", optional = true, features = ["plonky3", "halo2"] }
+
 # reth
 sp1-reth-primitives = { git = "https://github.com/succinctlabs/sp1-reth.git", branch = "john/update-for-v1" }
 chrono = "0.4.38"
@@ -44,7 +49,8 @@ chrono = "0.4.38"
 default = []
 sp1 = ["sp1-prover", "sp1-core"]
 risc0 = ["risc0-zkvm"]
-cuda = ["sp1-server", "risc0-zkvm/cuda"]
+cuda = ["dep:sp1-server", "risc0-zkvm/cuda"]
+powdr = ["powdr-riscv", "powdr-pipeline", "powdr-number"]
 
 # jolt
 jolt-zkvm = [
