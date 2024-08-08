@@ -39,6 +39,7 @@ echo "Running eval script"
 
 # Detect whether we're on an instance with a GPU.
 if nvidia-smi > /dev/null 2>&1; then
+  echo "running on GPU"
   GPU_EXISTS=true
 else
   GPU_EXISTS=false
@@ -46,7 +47,13 @@ fi
 
 # Set the compilation flags.
 if [ "$GPU_EXISTS" = false ]; then
-  export RUSTFLAGS='-C target-cpu=native -C target_feature=+avx512ifma,+avx512vl'
+    if grep -e avx512 /proc/cpuinfo > /dev/null; then
+        echo "running with AVX support"
+        export RUSTFLAGS='-C target-cpu=native -C target_feature=+avx512ifma,+avx512vl'
+    else
+        echo "running with no AVX support"
+        export RUSTFLAGS='-C target-cpu=native'
+    fi
 fi
 
 # Set the logging level.
