@@ -1,7 +1,9 @@
 #[cfg(feature = "jolt-zkvm")]
 mod jolt;
 
+#[cfg(feature = "risc0")]
 mod risc0;
+#[cfg(feature = "sp1")]
 mod sp1;
 mod types;
 mod utils;
@@ -75,9 +77,27 @@ fn main() {
     let args = EvalArgs::parse();
 
     // Select the correct implementation based on the prover.
-    let report = match args.prover {
-        ProverId::Risc0 => risc0::Risc0Evaluator::eval(&args),
-        ProverId::SP1 => sp1::SP1Evaluator::eval(&args),
+    let report: PerformanceReport = match args.prover {
+        ProverId::Risc0 => {
+            #[cfg(feature = "risc0")]
+            {
+                risc0::Risc0Evaluator::eval(&args)
+            }
+            #[cfg(not(feature = "risc0"))]
+            {
+                unreachable!()
+            }
+        }
+        ProverId::SP1 => {
+            #[cfg(feature = "sp1")]
+            {
+                sp1::SP1Evaluator::eval(&args)
+            }
+            #[cfg(not(feature = "sp1"))]
+            {
+                unreachable!()
+            }
+        }
         ProverId::JoltZkvm => {
             #[cfg(feature = "jolt-zkvm")]
             {

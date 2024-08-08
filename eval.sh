@@ -71,7 +71,7 @@ cargo run \
     -p sp1-benchmarks-eval \
     --release \
     --no-default-features \
-    --features $FEATURES \
+    --features $FEATURES,$2 \
     -- \
     --program $1 \
     --prover $2 \
