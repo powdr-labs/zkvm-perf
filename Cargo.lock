@@ -5183,7 +5183,7 @@ dependencies = [
 [[package]]
 name = "powdr-airgen"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=poseidon-witness#8317b0aaf988ade67f0b5dab820f9aa8ed14213d"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
 dependencies = [
  "itertools 0.13.0",
  "log",
@@ -5195,7 +5195,7 @@ dependencies = [
 [[package]]
 name = "powdr-analysis"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=poseidon-witness#8317b0aaf988ade67f0b5dab820f9aa8ed14213d"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
 dependencies = [
  "itertools 0.13.0",
  "lazy_static",
@@ -5209,7 +5209,7 @@ dependencies = [
 [[package]]
 name = "powdr-asm-to-pil"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=poseidon-witness#8317b0aaf988ade67f0b5dab820f9aa8ed14213d"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
 dependencies = [
  "lazy_static",
  "log",
@@ -5223,7 +5223,7 @@ dependencies = [
 [[package]]
 name = "powdr-asm-utils"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=poseidon-witness#8317b0aaf988ade67f0b5dab820f9aa8ed14213d"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
 dependencies = [
  "itertools 0.13.0",
 ]
@@ -5231,7 +5231,7 @@ dependencies = [
 [[package]]
 name = "powdr-ast"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=poseidon-witness#8317b0aaf988ade67f0b5dab820f9aa8ed14213d"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
 dependencies = [
  "auto_enums",
  "derive_more",
@@ -5247,7 +5247,7 @@ dependencies = [
 [[package]]
 name = "powdr-backend"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=poseidon-witness#8317b0aaf988ade67f0b5dab820f9aa8ed14213d"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
 dependencies = [
  "bincode",
  "halo2_proofs 0.3.0",
@@ -5278,7 +5278,7 @@ dependencies = [
 [[package]]
 name = "powdr-executor"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=poseidon-witness#8317b0aaf988ade67f0b5dab820f9aa8ed14213d"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
 dependencies = [
  "bit-vec",
  "indicatif",
@@ -5297,7 +5297,7 @@ dependencies = [
 [[package]]
 name = "powdr-importer"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=poseidon-witness#8317b0aaf988ade67f0b5dab820f9aa8ed14213d"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
 dependencies = [
  "powdr-ast",
  "powdr-number",
@@ -5309,7 +5309,7 @@ dependencies = [
 [[package]]
 name = "powdr-linker"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=poseidon-witness#8317b0aaf988ade67f0b5dab820f9aa8ed14213d"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
 dependencies = [
  "itertools 0.13.0",
  "powdr-analysis",
@@ -5322,7 +5322,7 @@ dependencies = [
 [[package]]
 name = "powdr-number"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=poseidon-witness#8317b0aaf988ade67f0b5dab820f9aa8ed14213d"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
 dependencies = [
  "ark-bn254",
  "ark-ff 0.4.2",
@@ -5341,7 +5341,7 @@ dependencies = [
 [[package]]
 name = "powdr-parser"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=poseidon-witness#8317b0aaf988ade67f0b5dab820f9aa8ed14213d"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
 dependencies = [
  "derive_more",
  "lalrpop",
@@ -5356,7 +5356,7 @@ dependencies = [
 [[package]]
 name = "powdr-parser-util"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=poseidon-witness#8317b0aaf988ade67f0b5dab820f9aa8ed14213d"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
 dependencies = [
  "codespan-reporting",
  "lalrpop-util",
@@ -5367,7 +5367,7 @@ dependencies = [
 [[package]]
 name = "powdr-pil-analyzer"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=poseidon-witness#8317b0aaf988ade67f0b5dab820f9aa8ed14213d"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
 dependencies = [
  "itertools 0.13.0",
  "lazy_static",
@@ -5381,7 +5381,7 @@ dependencies = [
 [[package]]
 name = "powdr-pilopt"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=poseidon-witness#8317b0aaf988ade67f0b5dab820f9aa8ed14213d"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
 dependencies = [
  "log",
  "powdr-ast",
@@ -5392,7 +5392,7 @@ dependencies = [
 [[package]]
 name = "powdr-pipeline"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=poseidon-witness#8317b0aaf988ade67f0b5dab820f9aa8ed14213d"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
 dependencies = [
  "itertools 0.13.0",
  "log",
@@ -5421,7 +5421,7 @@ dependencies = [
 [[package]]
 name = "powdr-plonky3"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=poseidon-witness#8317b0aaf988ade67f0b5dab820f9aa8ed14213d"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
 dependencies = [
  "bincode",
  "lazy_static",
@@ -5452,7 +5452,7 @@ dependencies = [
 [[package]]
 name = "powdr-riscv"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=poseidon-witness#8317b0aaf988ade67f0b5dab820f9aa8ed14213d"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
 dependencies = [
  "gimli 0.31.0",
  "goblin",
@@ -5475,13 +5475,14 @@ dependencies = [
  "raki",
  "regex-syntax 0.6.29",
  "serde_json",
+ "static_assertions",
  "thiserror",
 ]
 
 [[package]]
 name = "powdr-riscv-executor"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=poseidon-witness#8317b0aaf988ade67f0b5dab820f9aa8ed14213d"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
 dependencies = [
  "inferno",
  "itertools 0.13.0",
@@ -5502,12 +5503,12 @@ dependencies = [
 [[package]]
 name = "powdr-riscv-syscalls"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=poseidon-witness#8317b0aaf988ade67f0b5dab820f9aa8ed14213d"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
 
 [[package]]
 name = "powdr-schemas"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=poseidon-witness#8317b0aaf988ade67f0b5dab820f9aa8ed14213d"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
 dependencies = [
  "powdr-ast",
  "powdr-number",

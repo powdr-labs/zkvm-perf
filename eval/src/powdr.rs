@@ -143,7 +143,7 @@ fn compile_program<F: FieldElement>(program: &ProgramId) -> Option<(PathBuf, Str
 
     let output_dir: PathBuf = format!("/tmp/").into();
     let force_overwrite = true;
-    let runtime = powdr_riscv::Runtime::base().with_poseidon(true);
+    let runtime = powdr_riscv::Runtime::base().with_poseidon_for_continuations();
     let via_elf = true;
     let with_bootloader = true;
 
@@ -155,7 +155,7 @@ fn compile_program<F: FieldElement>(program: &ProgramId) -> Option<(PathBuf, Str
         via_elf,
         with_bootloader,
         // enable powdr feature on compiled program
-        Some(vec!["powdr"]),
+        Some(vec!["powdr".to_string()]),
     );
     res
 }

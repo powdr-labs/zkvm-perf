@@ -37,9 +37,10 @@ tendermint-jolt = { path = "../programs/tendermint-jolt", optional = true }
 sha2-chain-jolt = { path = "../programs/sha2-chain-jolt", optional = true }
 
 # powdr
-powdr-number = { git = "https://github.com/powdr-labs/powdr.git", branch = "poseidon-witness", optional = true }
-powdr-riscv = { git = "https://github.com/powdr-labs/powdr.git", branch = "poseidon-witness", optional = true }
-powdr-pipeline = { git = "https://github.com/powdr-labs/powdr.git", branch = "poseidon-witness", optional = true, features = ["plonky3", "halo2"] }
+# TODO: just these point to main branch later
+powdr-number = { git = "https://github.com/powdr-labs/powdr.git", branch = "tmp-submachine-degrees", optional = true }
+powdr-riscv = { git = "https://github.com/powdr-labs/powdr.git", branch = "tmp-submachine-degrees", optional = true }
+powdr-pipeline = { git = "https://github.com/powdr-labs/powdr.git", branch = "tmp-submachine-degrees", optional = true, features = ["plonky3", "halo2"] }
 
 # reth
 sp1-reth-primitives = { git = "https://github.com/succinctlabs/sp1-reth.git", branch = "john/update-for-v1" }

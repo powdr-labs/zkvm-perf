@@ -1,7 +1,10 @@
-#![no_main]
+#![cfg_attr(any(feature = "sp1", feature = "risc0"), no_main)]
 
 mod beacon;
 mod proof;
+
+#[cfg(feature = "powdr")]
+extern crate powdr_riscv_runtime;
 
 #[cfg(feature = "risc0")]
 extern crate sha2_risc0;

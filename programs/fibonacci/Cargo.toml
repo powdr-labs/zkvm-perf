@@ -13,7 +13,7 @@ powdr-riscv-runtime = { git = "https://github.com/powdr-labs/powdr.git", feature
 serde = { version = "1.0.204", default-features = false, features = ["derive"], optional = true }
 
 [features]
-default = ["powdr"]
+default = []
 powdr = ["powdr-riscv-runtime"]
 risc0 = ["risc0-zkvm"]
 sp1 = ["sp1-zkvm"]
