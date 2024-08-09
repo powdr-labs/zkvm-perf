@@ -5,6 +5,7 @@ use sp1_reth_primitives::SP1RethInput;
 
 use crate::{EvalArgs, ProgramId, ProverId};
 
+#[allow(unused)]
 pub fn get_elf(args: &EvalArgs) -> String {
     let mut program_dir = args.program.to_string();
     if args.program == ProgramId::Tendermint || args.program == ProgramId::Reth {

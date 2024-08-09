@@ -3,11 +3,11 @@ use std::{
     time::{Duration, Instant},
 };
 
-use powdr_number::{Bn254Field, FieldElement, GoldilocksField};
+use powdr_number::{FieldElement, GoldilocksField};
 use powdr_pipeline::Pipeline;
 
 use crate::{
-    utils::{get_elf, get_reth_input, time_operation},
+    utils::{get_reth_input, time_operation},
     EvalArgs, HashFnId, PerformanceReport, ProgramId,
 };
 
@@ -33,6 +33,12 @@ impl PowdrEvaluator {
             // .with_setup_file()
             .with_backend(backend, None)
             .with_pil_object();
+
+        if args.program == ProgramId::Reth {
+            // add data input for Reth
+            let data = vec![(0, get_reth_input(args))];
+            pipeline = pipeline.add_data_vec(&data[..]);
+        }
 
         // execute with continuations
         let start = Instant::now();
@@ -137,6 +143,7 @@ fn compile_program<F: FieldElement>(program: &ProgramId) -> Option<(PathBuf, Str
 
     let program = match program {
         ProgramId::Tendermint => format!("programs/{}-powdr", program.to_string()),
+        ProgramId::Reth => format!("programs/{}-powdr", program.to_string()),
         // ProgramId::Reth => ,
         _ => format!("programs/{}", program.to_string()),
     };
