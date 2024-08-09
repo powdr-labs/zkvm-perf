@@ -21,4 +21,4 @@ tendermint-light-client-verifier = { version = "0.39.0", default-features = fals
 # ed25519-consensus = { git = "https://github.com/risc0/ed25519-consensus", rev = "8a6d26d1fcd377f9322ba83d3732d04c157e4778" }
 
 [features]
-powdr = []
+powdr = ["powdr-riscv-runtime"]
