@@ -43,6 +43,9 @@ powdr-number = { git = "https://github.com/powdr-labs/powdr.git", branch = "tmp-
 powdr-riscv = { git = "https://github.com/powdr-labs/powdr.git", branch = "tmp-submachine-degrees", optional = true }
 powdr-pipeline = { git = "https://github.com/powdr-labs/powdr.git", branch = "tmp-submachine-degrees", optional = true }
 
+# so we can enable the avx512 feature
+fields = { git = "https://github.com/0xEigenLabs/eigen-zkvm.git", rev = "cf405b2e2cecb8567cfd083a55936b71722276d5", optional = true }
+
 # reth
 sp1-reth-primitives = { git = "https://github.com/succinctlabs/sp1-reth.git", branch = "john/update-for-v1" }
 chrono = "0.4.38"
@@ -54,7 +57,7 @@ risc0 = ["risc0-zkvm"]
 cuda = ["dep:sp1-server", "risc0-zkvm/cuda"]
 powdr-estark = ["powdr-pipeline/estark-polygon", "powdr-riscv", "powdr-number"]
 powdr-plonky3 = ["powdr-pipeline/plonky3", "powdr-riscv", "powdr-number"]
-avx512 = ["powdr-pipeline/avx512"]
+avx512 = ["fields/avx512"]
 
 # jolt
 jolt-zkvm = [
