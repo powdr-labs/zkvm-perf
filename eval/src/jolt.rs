@@ -177,6 +177,7 @@ impl PerformanceReportGenerator for JoltPerformanceReportGenerator {
             core_prove_duration: res.prove_duration,
             core_verify_duration: res.verify_duration,
             core_proof_size: res.proof_size,
+            core_speed: (res.total_cycles as f64 / res.prove_duration) as f64,
             recursive_prove_duration: 0.0,
             recursive_verify_duration: 0.0,
             recursive_proof_size: 0,

@@ -101,6 +101,7 @@ impl SP1Evaluator {
             core_prove_duration: prove_core_duration.as_secs_f64(),
             core_verify_duration: verify_core_duration.as_secs_f64(),
             core_proof_size: core_bytes.len(),
+            core_speed: (cycles as f64) / prove_core_duration.as_secs_f64(),
             compress_prove_duration: compress_duration.as_secs_f64(),
             compress_verify_duration: 0.0, // TODO: fill this in.
             compress_proof_size: compress_bytes.len(),

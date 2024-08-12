@@ -45,7 +45,7 @@ impl PowdrEvaluator {
         let bootloader_inputs =
             powdr_riscv::continuations::rust_continuations_dry_run(&mut pipeline, None);
 
-        // TODO: is this the correct len?
+        // TODO: is this the correct trace size?
         let trace_len: u64 = bootloader_inputs.iter().map(|(_, n)| n).sum();
         let num_chunks = bootloader_inputs.len();
         println!("trace length: {trace_len}");
@@ -66,8 +66,8 @@ impl PowdrEvaluator {
         println!("continuations witgen time: {witgen_time:?}");
 
         // compute proof for each chunk
-        let mut proof_duration = Duration::default();
-        let mut proof_size = 0;
+        let mut core_proof_duration = Duration::default();
+        let mut core_proof_size = 0;
         let mut proofs = vec![];
         for chunk in 0..num_chunks {
             let witness_dir: PathBuf = format!("{dir}/chunk_{}", chunk).into();
@@ -81,14 +81,14 @@ impl PowdrEvaluator {
             let chunk_size = proof.len();
             proofs.push(proof);
             println!("chunk size: {chunk_size}");
-            proof_duration += chunk_duration;
-            proof_size += chunk_size;
+            core_proof_duration += chunk_duration;
+            core_proof_size += chunk_size;
         }
-        println!("total proof time: {proof_duration:?}");
-        println!("total proof size: {proof_size}");
+        println!("total proof time: {core_proof_duration:?}");
+        println!("total proof size: {core_proof_size}");
 
         // verify each chunk
-        let mut verification_time = Duration::default();
+        let mut core_verification_time = Duration::default();
         {
             let mut writer = std::fs::File::create("vkey.bin").unwrap();
             pipeline.export_verification_key(&mut writer).unwrap();
@@ -98,7 +98,7 @@ impl PowdrEvaluator {
                 pipeline.verify(&proofs[chunk], &[vec![]]).unwrap();
             });
             println!("chunk {chunk} verification time: {time:?}");
-            verification_time += time;
+            core_verification_time += time;
         }
 
         PerformanceReport {
@@ -110,30 +110,32 @@ impl PowdrEvaluator {
             hashfn: args.hashfn.to_string(),
             // The shard size that is being evaluated.
             shard_size: args.shard_size,
-            // TODO: continuation chunks?
             // The number of shards.
-            shards: 1,
+            shards: num_chunks,
             // The reported number of cycles.
             cycles: trace_len,
-            // The reported speed in cycles per second.
-            speed: (trace_len as f64) / proof_duration.as_secs_f64(),
             // The reported duration of the execution in seconds.
             execution_duration: witgen_time.as_secs_f64(),
-            // The reported duration of the prover in seconds.
-            prove_duration: 0.0,
             // The reported duration of the core proving time in seconds.
-            core_prove_duration: proof_duration.as_secs_f64(),
+            core_prove_duration: core_proof_duration.as_secs_f64(),
             // The reported duration of the verifier in seconds.
-            core_verify_duration: verification_time.as_secs_f64(),
+            core_verify_duration: core_verification_time.as_secs_f64(),
             // The size of the core proof.
-            core_proof_size: proof_size,
-            // TODO: we don't do recursion/compression yet
+            core_proof_size,
+            core_speed: (trace_len as f64) / core_proof_duration.as_secs_f64(),
+
+            // TODO: we don't do recursion/compression yet, so these are all 0
+
             // The reported duration of the recursive proving time in seconds.
             compress_prove_duration: 0.0,
             // The reported duration of the verifier in seconds.
             compress_verify_duration: 0.0,
             // The size of the recursive proof in bytes.
             compress_proof_size: 0,
+            // The reported speed in cycles per second.
+            speed: 0.0,
+            // The reported duration of the prover in seconds.
+            prove_duration: 0.0,
         }
     }
 }
@@ -148,6 +150,7 @@ fn compile_program<F: FieldElement>(program: &ProgramId) -> Option<(PathBuf, Str
         _ => format!("programs/{}", program.to_string()),
     };
 
+    // TODO: build to some other directory?
     let output_dir: PathBuf = format!("/tmp/").into();
     let force_overwrite = true;
     let runtime = powdr_riscv::Runtime::base().with_poseidon_for_continuations();

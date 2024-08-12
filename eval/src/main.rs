@@ -55,6 +55,8 @@ pub struct PerformanceReport {
     ///
     /// Note that this number may vary based on the zkVM.
     pub cycles: u64,
+    /// The reported speed in cycles per second for the core proof.
+    pub core_speed: f64,
     /// The reported speed in cycles per second.
     pub speed: f64,
     /// The reported duration of the execution in seconds.

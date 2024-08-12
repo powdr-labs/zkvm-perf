@@ -3753,7 +3753,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4979f22fdb869068da03c9f7528f8297c6fd2606bc3a4affe42e6a823fdb8da4"
 dependencies = [
  "cfg-if",
- "windows-targets 0.52.6",
+ "windows-targets 0.48.5",
 ]
 
 [[package]]
@@ -5183,7 +5183,7 @@ dependencies = [
 [[package]]
 name = "powdr-airgen"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4a30d72b79589b7f67a85e4b04a965e3d5e16d7"
 dependencies = [
  "itertools 0.13.0",
  "log",
@@ -5195,7 +5195,7 @@ dependencies = [
 [[package]]
 name = "powdr-analysis"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4a30d72b79589b7f67a85e4b04a965e3d5e16d7"
 dependencies = [
  "itertools 0.13.0",
  "lazy_static",
@@ -5209,7 +5209,7 @@ dependencies = [
 [[package]]
 name = "powdr-asm-to-pil"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4a30d72b79589b7f67a85e4b04a965e3d5e16d7"
 dependencies = [
  "lazy_static",
  "log",
@@ -5223,7 +5223,7 @@ dependencies = [
 [[package]]
 name = "powdr-asm-utils"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4a30d72b79589b7f67a85e4b04a965e3d5e16d7"
 dependencies = [
  "itertools 0.13.0",
 ]
@@ -5231,7 +5231,7 @@ dependencies = [
 [[package]]
 name = "powdr-ast"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4a30d72b79589b7f67a85e4b04a965e3d5e16d7"
 dependencies = [
  "auto_enums",
  "derive_more",
@@ -5247,7 +5247,7 @@ dependencies = [
 [[package]]
 name = "powdr-backend"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4a30d72b79589b7f67a85e4b04a965e3d5e16d7"
 dependencies = [
  "bincode",
  "halo2_proofs 0.3.0",
@@ -5278,7 +5278,7 @@ dependencies = [
 [[package]]
 name = "powdr-executor"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4a30d72b79589b7f67a85e4b04a965e3d5e16d7"
 dependencies = [
  "bit-vec",
  "indicatif",
@@ -5297,7 +5297,7 @@ dependencies = [
 [[package]]
 name = "powdr-importer"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4a30d72b79589b7f67a85e4b04a965e3d5e16d7"
 dependencies = [
  "powdr-ast",
  "powdr-number",
@@ -5309,7 +5309,7 @@ dependencies = [
 [[package]]
 name = "powdr-linker"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4a30d72b79589b7f67a85e4b04a965e3d5e16d7"
 dependencies = [
  "itertools 0.13.0",
  "powdr-analysis",
@@ -5322,7 +5322,7 @@ dependencies = [
 [[package]]
 name = "powdr-number"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4a30d72b79589b7f67a85e4b04a965e3d5e16d7"
 dependencies = [
  "ark-bn254",
  "ark-ff 0.4.2",
@@ -5341,7 +5341,7 @@ dependencies = [
 [[package]]
 name = "powdr-parser"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4a30d72b79589b7f67a85e4b04a965e3d5e16d7"
 dependencies = [
  "derive_more",
  "lalrpop",
@@ -5356,7 +5356,7 @@ dependencies = [
 [[package]]
 name = "powdr-parser-util"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4a30d72b79589b7f67a85e4b04a965e3d5e16d7"
 dependencies = [
  "codespan-reporting",
  "lalrpop-util",
@@ -5367,7 +5367,7 @@ dependencies = [
 [[package]]
 name = "powdr-pil-analyzer"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4a30d72b79589b7f67a85e4b04a965e3d5e16d7"
 dependencies = [
  "itertools 0.13.0",
  "lazy_static",
@@ -5381,7 +5381,7 @@ dependencies = [
 [[package]]
 name = "powdr-pilopt"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4a30d72b79589b7f67a85e4b04a965e3d5e16d7"
 dependencies = [
  "log",
  "powdr-ast",
@@ -5392,7 +5392,7 @@ dependencies = [
 [[package]]
 name = "powdr-pipeline"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4a30d72b79589b7f67a85e4b04a965e3d5e16d7"
 dependencies = [
  "itertools 0.13.0",
  "log",
@@ -5421,7 +5421,7 @@ dependencies = [
 [[package]]
 name = "powdr-plonky3"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4a30d72b79589b7f67a85e4b04a965e3d5e16d7"
 dependencies = [
  "bincode",
  "lazy_static",
@@ -5452,7 +5452,7 @@ dependencies = [
 [[package]]
 name = "powdr-riscv"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4a30d72b79589b7f67a85e4b04a965e3d5e16d7"
 dependencies = [
  "gimli 0.31.0",
  "goblin",
@@ -5482,7 +5482,7 @@ dependencies = [
 [[package]]
 name = "powdr-riscv-executor"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4a30d72b79589b7f67a85e4b04a965e3d5e16d7"
 dependencies = [
  "inferno",
  "itertools 0.13.0",
@@ -5503,12 +5503,12 @@ dependencies = [
 [[package]]
 name = "powdr-riscv-syscalls"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4a30d72b79589b7f67a85e4b04a965e3d5e16d7"
 
 [[package]]
 name = "powdr-schemas"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#f9582732830a25d8d0685e656497df7d773e8cc3"
+source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4a30d72b79589b7f67a85e4b04a965e3d5e16d7"
 dependencies = [
  "powdr-ast",
  "powdr-number",
@@ -8975,7 +8975,7 @@ version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cf221c93e13a30d793f7645a0e7762c55d169dbb0a49671918a2319d289b10bb"
 dependencies = [
- "windows-sys 0.59.0",
+ "windows-sys 0.48.0",
 ]
 
 [[package]]
@@ -9007,15 +9007,6 @@ name = "windows-sys"
 version = "0.52.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "282be5f36a8ce781fad8c8ae18fa3f9beff57ec1b52cb3de0789201425d9a33d"
-dependencies = [
- "windows-targets 0.52.6",
-]
-
-[[package]]
-name = "windows-sys"
-version = "0.59.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1e38bc4d79ed67fd075bcc251a1c39b32a1776bbe92e5bef1f0bf1f8c531853b"
 dependencies = [
  "windows-targets 0.52.6",
 ]

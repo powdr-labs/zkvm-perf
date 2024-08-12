@@ -107,6 +107,7 @@ impl Risc0Evaluator {
             core_prove_duration: core_prove_duration.as_secs_f64(),
             core_verify_duration: core_verify_duration.as_secs_f64(),
             core_proof_size,
+            core_speed: (cycles as f64) / core_prove_duration.as_secs_f64(),
             compress_prove_duration: compress_duration.as_secs_f64(),
             compress_verify_duration: recursive_verify_duration.as_secs_f64(),
             compress_proof_size: recursive_proof_size,
