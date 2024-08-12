@@ -42,6 +42,7 @@ sha2-chain-jolt = { path = "../programs/sha2-chain-jolt", optional = true }
 powdr-number = { git = "https://github.com/powdr-labs/powdr.git", branch = "tmp-submachine-degrees", optional = true }
 powdr-riscv = { git = "https://github.com/powdr-labs/powdr.git", branch = "tmp-submachine-degrees", optional = true }
 powdr-pipeline = { git = "https://github.com/powdr-labs/powdr.git", branch = "tmp-submachine-degrees", optional = true }
+powdr-backend = { git = "https://github.com/powdr-labs/powdr.git", branch = "tmp-submachine-degrees", optional = true }
 
 # reth
 sp1-reth-primitives = { git = "https://github.com/succinctlabs/sp1-reth.git", branch = "john/update-for-v1" }
@@ -54,6 +55,7 @@ risc0 = ["risc0-zkvm"]
 cuda = ["dep:sp1-server", "risc0-zkvm/cuda"]
 powdr-estark = ["powdr-pipeline/estark-polygon", "powdr-riscv", "powdr-number"]
 powdr-plonky3 = ["powdr-pipeline/plonky3", "powdr-riscv", "powdr-number"]
+avx512 = ["powdr-backend/avx512"]
 
 # jolt
 jolt-zkvm = [

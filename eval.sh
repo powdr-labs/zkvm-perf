@@ -45,26 +45,24 @@ else
   GPU_EXISTS=false
 fi
 
-# Set the compilation flags.
-if [ "$GPU_EXISTS" = false ]; then
-    if grep -e avx512 /proc/cpuinfo > /dev/null; then
-        echo "running with AVX support"
-        export RUSTFLAGS='-C target-cpu=native -C target_feature=+avx512ifma,+avx512vl'
-    else
-        echo "running with no AVX support"
-        export RUSTFLAGS='-C target-cpu=native'
-    fi
-fi
-
-# Set the logging level.
-export RUST_LOG=info
-
 # Determine the features based on GPU existence.
 if [ "$GPU_EXISTS" = true ]; then
   FEATURES="cuda"
 else
   FEATURES="default"
+  if grep -e avx512 /proc/cpuinfo > /dev/null; then
+    echo "running with AVX support"
+    export RUSTFLAGS='-C target-cpu=native -C target_feature=+avx512ifma,+avx512vl'
+    FEATURES="${FEATURES},avx512"
+  else
+    echo "running with no AVX support"
+    export RUSTFLAGS='-C target-cpu=native'
+  fi
 fi
+
+# Set the logging level.
+export RUST_LOG=info
+
 
 # Run the benchmark.
 cargo run \
