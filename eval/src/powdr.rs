@@ -6,9 +6,11 @@ use std::{
 use powdr_number::{FieldElement, GoldilocksField};
 use powdr_pipeline::Pipeline;
 
+use cfg_if::cfg_if;
+
 use crate::{
     utils::{get_reth_input, time_operation},
-    EvalArgs, HashFnId, PerformanceReport, ProgramId,
+    EvalArgs, HashFnId, PerformanceReport, ProgramId, ProverId,
 };
 
 pub struct PowdrEvaluator;
@@ -24,8 +26,19 @@ impl PowdrEvaluator {
 
         // build the powdr pipeline
         let force_overwrite = true;
-        let backend = powdr_pipeline::BackendType::Plonky3Composite;
-        // let backend = powdr_pipeline::BackendType::EStarkStarkyComposite;
+        cfg_if! {
+            if #[cfg(feature = "powdr-estark")] {
+                println!("using EStark backend");
+                assert!(args.prover == ProverId::PowdrEstark);
+                let backend = powdr_pipeline::BackendType::EStarkPolygonComposite;
+            } else if #[cfg(feature = "powdr-plonky3")] {
+                println!("using Plonky3 backend");
+                assert!(args.prover == ProverId::PowdrPlonky3);
+                let backend = powdr_pipeline::BackendType::Plonky3Composite;
+            } else {
+                unreachable!();
+            }
+        }
         let mut pipeline = powdr_pipeline::Pipeline::<GoldilocksField>::default()
             .from_asm_string(asm, Some(path))
             .with_output(dir.into(), force_overwrite)

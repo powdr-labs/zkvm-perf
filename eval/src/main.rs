@@ -1,7 +1,7 @@
 #[cfg(feature = "jolt-zkvm")]
 mod jolt;
 
-#[cfg(feature = "powdr")]
+#[cfg(any(feature = "powdr-estark", feature = "powdr-plonky3"))]
 mod powdr;
 #[cfg(feature = "risc0")]
 mod risc0;
@@ -19,6 +19,8 @@ use clap::{command, Parser};
 use csv::WriterBuilder;
 use serde::Serialize;
 use types::*;
+
+use cfg_if::cfg_if;
 
 /// The argument passed through the CLI.
 #[derive(Parser, Clone)]
@@ -83,43 +85,48 @@ fn main() {
     // Select the correct implementation based on the prover.
     let report: PerformanceReport = match args.prover {
         ProverId::Risc0 => {
-            #[cfg(feature = "risc0")]
-            {
-                risc0::Risc0Evaluator::eval(&args)
-            }
-            #[cfg(not(feature = "risc0"))]
-            {
-                unreachable!()
+            cfg_if! {
+                if #[cfg(feature = "risc0")] {
+                    risc0::Risc0Evaluator::eval(&args)
+                } else {
+                    unreachable!()
+                }
             }
         }
         ProverId::SP1 => {
-            #[cfg(feature = "sp1")]
-            {
-                sp1::SP1Evaluator::eval(&args)
-            }
-            #[cfg(not(feature = "sp1"))]
-            {
-                unreachable!()
+            cfg_if! {
+                if #[cfg(feature = "sp1")] {
+                    sp1::SP1Evaluator::eval(&args)
+                } else {
+                    unreachable!()
+                }
             }
         }
         ProverId::JoltZkvm => {
-            #[cfg(feature = "jolt-zkvm")]
-            {
-                jolt::JoltPerformanceReportGenerator::get_report(&args)
-            }
-            #[cfg(not(feature = "jolt-zkvm"))]
-            {
-                unreachable!()
+            cfg_if! {
+                if #[cfg(feature = "jolt-zkvm")] {
+                    jolt::JoltPerformanceReportGenerator::get_report(&args)
+                } else {
+                    unreachable!()
+                }
             }
         }
-        ProverId::Powdr => {
-            #[cfg(feature = "powdr")]
-            {
-                powdr::PowdrEvaluator::eval(&args)
+        ProverId::PowdrEstark => {
+            cfg_if! {
+                if #[cfg(feature = "powdr-estark")] {
+                    powdr::PowdrEvaluator::eval(&args)
+                } else {
+                    unreachable!()
+                }
             }
-            #[cfg(not(feature = "powdr"))]
-            {
-                unreachable!()
+        }
+        ProverId::PowdrPlonky3 => {
+            cfg_if! {
+                if #[cfg(feature = "powdr-plonky3")] {
+                    powdr::PowdrEvaluator::eval(&args)
+                } else {
+                    unreachable!()
+                }
             }
         }
     };
