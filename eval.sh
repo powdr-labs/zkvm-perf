@@ -4,7 +4,11 @@ echo "Running $1, $2, $3, $4, $5"
 
 # Get program directory name as $1 and append "-$2" to it if $1 == "tendermint"
 if [ "$1" = "tendermint" ] || [ "$1" = "reth" ]; then
-    program_directory="${1}-$2"
+    if [[ "$2" == powdr-* ]]; then
+        program_directory="${1}-powdr"
+    else
+        program_directory="${1}-$2"
+    fi
 else
     program_directory="$1"
 fi
