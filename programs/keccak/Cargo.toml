@@ -1,0 +1,18 @@
+[workspace]
+[package]
+name = "keccak"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+sp1-zkvm = { git = "https://github.com/succinctlabs/sp1", branch = "dev", optional = true }
+risc0-zkvm = { version = "1.0.5", default-features = false, features = ["std"], optional = true }
+serde = { version = "1.0.204", default-features = false, features = ["derive"] }
+powdr-riscv-runtime = { git = "https://github.com/powdr-labs/powdr.git", features = ["std"], optional = true }
+tiny-keccak = { version = "2.0.2", features = ["keccak"] }
+
+[features]
+default = []
+powdr = ["powdr-riscv-runtime"]
+risc0 = ["risc0-zkvm"]
+sp1 = ["sp1-zkvm"]
