@@ -1,5 +1,5 @@
 use core::time;
-use std::{env, fs, time::Instant};
+use std::{collections::VecDeque, env, fs, path::Path, time::Instant};
 
 use sp1_reth_primitives::SP1RethInput;
 
@@ -32,34 +32,63 @@ pub fn get_elf(args: &EvalArgs) -> String {
     elf_path_str
 }
 
-pub fn get_reth_input(args: &EvalArgs) -> SP1RethInput {
-    if let Some(block_number) = args.block_number {
-        let current_dir = env::current_dir().expect("Failed to get current working directory");
+fn read_brainfuck_and_convert(path: &Path) -> Vec<u32> {
+    let content = fs::read_to_string(path).expect("error reading brainfuck program");
+    let valid_chars = "><+-.,[]";
+    content
+        .chars()
+        .filter(|c| valid_chars.contains(*c))
+        .map(|b| b as u32)
+        // interpreter stops at seeing a 0
+        .chain(std::iter::once(0))
+        .collect()
+}
 
-        let blocks_dir = current_dir.join("eval").join("blocks");
+fn read_brainfuck_inputs(path: &Path) -> VecDeque<i64> {
+    let content = fs::read_to_string(path).expect("error reading brainfuck input file");
+    content
+        .split(',')
+        .map(|x| x.trim())
+        .filter(|x| !x.is_empty())
+        .map(|x| x.parse::<i64>().unwrap())
+        .collect()
+}
 
-        let file_path = blocks_dir.join(format!("{}.bin", block_number));
-
-        if let Ok(bytes) = fs::read(file_path) {
-            bincode::deserialize(&bytes).expect("Unable to deserialize input")
-        } else {
-            let blocks: Vec<String> = fs::read_dir(&blocks_dir)
-                .unwrap_or_else(|_| panic!("Failed to read blocks directory: {:?}", blocks_dir))
-                .filter_map(|entry| {
-                    entry.ok().and_then(|e| {
-                        e.path().file_stem().and_then(|n| n.to_str().map(String::from))
-                    })
-                })
-                .collect();
-
-            panic!(
-                "Block {} not supported. Please choose from: {}",
-                block_number,
-                blocks.join(", ")
-            );
+pub fn get_brainfuck_input(args: &EvalArgs) -> (Vec<u32>, VecDeque<i64>) {
+    match &args.program_inputs[..] {
+        [program] => (read_brainfuck_and_convert(program.as_ref()), Default::default()),
+        [program, input] => {
+            (read_brainfuck_and_convert(program.as_ref()), read_brainfuck_inputs(input.as_ref()))
         }
+        _ => panic!("Brainfuck interpreter requires a program and inputs"),
+    }
+}
+
+pub fn get_reth_input(args: &EvalArgs) -> SP1RethInput {
+    let block_number = match &args.program_inputs[..] {
+        [block_number] => block_number.parse::<u64>().expect("Invalid reth block number"),
+        _ => panic!("Block number is required for Reth program"),
+    };
+
+    let current_dir = env::current_dir().expect("Failed to get current working directory");
+
+    let blocks_dir = current_dir.join("eval").join("blocks");
+
+    let file_path = blocks_dir.join(format!("{}.bin", block_number));
+
+    if let Ok(bytes) = fs::read(file_path) {
+        bincode::deserialize(&bytes).expect("Unable to deserialize input")
     } else {
-        panic!("Block number is required for Reth program");
+        let blocks: Vec<String> = fs::read_dir(&blocks_dir)
+            .unwrap_or_else(|_| panic!("Failed to read blocks directory: {:?}", blocks_dir))
+            .filter_map(|entry| {
+                entry
+                    .ok()
+                    .and_then(|e| e.path().file_stem().and_then(|n| n.to_str().map(String::from)))
+            })
+            .collect();
+
+        panic!("Block {} not supported. Please choose from: {}", block_number, blocks.join(", "));
     }
 }
 

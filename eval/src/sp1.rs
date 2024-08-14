@@ -1,9 +1,6 @@
 use std::fs;
 
-use crate::{
-    utils::{get_elf, get_reth_input, time_operation},
-    EvalArgs, PerformanceReport, ProgramId,
-};
+use crate::{utils::*, EvalArgs, PerformanceReport, ProgramId};
 
 use sp1_core::{runtime::SP1Context, utils::SP1ProverOpts};
 use sp1_prover::{components::DefaultProverComponents, utils::get_cycles, SP1Prover, SP1Stdin};
@@ -24,14 +21,21 @@ impl SP1Evaluator {
             std::env::set_var("SHARD_CHUNKING_MULTIPLIER", "4");
         }
 
-        // Get stdin.
-        let stdin = if args.program == ProgramId::Reth {
-            let input = get_reth_input(args);
-            let mut stdin = SP1Stdin::new();
-            stdin.write(&input);
-            stdin
-        } else {
-            SP1Stdin::new()
+        // set program inputs
+        let stdin = match args.program {
+            ProgramId::Brainfuck => {
+                let input = get_brainfuck_input(args);
+                let mut stdin = SP1Stdin::new();
+                stdin.write(&input);
+                stdin
+            }
+            ProgramId::Reth => {
+                let input = get_reth_input(args);
+                let mut stdin = SP1Stdin::new();
+                stdin.write(&input);
+                stdin
+            }
+            _ => SP1Stdin::new(),
         };
 
         // Get the elf.

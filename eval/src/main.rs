@@ -36,8 +36,7 @@ pub struct EvalArgs {
     shard_size: u64,
     #[arg(long)]
     filename: String,
-    #[arg(long)]
-    block_number: Option<u64>,
+    program_inputs: Vec<String>,
 }
 
 /// The performance report of a zkVM on a program.

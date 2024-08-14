@@ -80,4 +80,4 @@ cargo run \
     --hashfn $3 \
     --shard-size $4 \
     --filename $5 \
-    ${6:+--block-number $6}
+    ${@:6}

@@ -4,12 +4,33 @@ use risc0_zkvm::{
     compute_image_id, get_prover_server, ExecutorEnv, ExecutorImpl, ProverOpts, VerifierContext,
 };
 
-use crate::{
-    utils::{get_elf, get_reth_input, time_operation},
-    EvalArgs, HashFnId, PerformanceReport, ProgramId,
-};
+use crate::{utils::*, EvalArgs, HashFnId, PerformanceReport, ProgramId};
 
 pub struct Risc0Evaluator;
+
+fn build_env(args: &EvalArgs) -> ExecutorEnv {
+    match args.program {
+        ProgramId::Brainfuck => {
+            let input = get_brainfuck_input(args);
+            ExecutorEnv::builder()
+                .segment_limit_po2(args.shard_size as u32)
+                .write(&input)
+                .expect("Failed to write input to executor")
+                .build()
+                .unwrap()
+        }
+        ProgramId::Reth => {
+            let input = get_reth_input(args);
+            ExecutorEnv::builder()
+                .segment_limit_po2(args.shard_size as u32)
+                .write(&input)
+                .expect("Failed to write input to executor")
+                .build()
+                .unwrap()
+        }
+        _ => ExecutorEnv::builder().segment_limit_po2(args.shard_size as u32).build().unwrap(),
+    }
+}
 
 impl Risc0Evaluator {
     pub fn eval(args: &EvalArgs) -> PerformanceReport {
@@ -21,19 +42,8 @@ impl Risc0Evaluator {
         let elf = fs::read(&elf_path).unwrap();
         let image_id = compute_image_id(elf.as_slice()).unwrap();
 
-        // If the program is Reth, read the block and set it as input. Otherwise, we assume other
-        // benchmarking programs don't have input.
-        let env = if args.program == ProgramId::Reth {
-            let input = get_reth_input(args);
-            ExecutorEnv::builder()
-                .segment_limit_po2(args.shard_size as u32)
-                .write(&input)
-                .expect("Failed to write input to executor")
-                .build()
-                .unwrap()
-        } else {
-            ExecutorEnv::builder().segment_limit_po2(args.shard_size as u32).build().unwrap()
-        };
+        // set program inputs
+        let env = build_env(args);
 
         // Compute some statistics.
         let mut exec = ExecutorImpl::from_elf(env, &elf).unwrap();
@@ -41,17 +51,7 @@ impl Risc0Evaluator {
         let cycles = session.user_cycles;
 
         // Setup the prover.
-        let env = if args.program == ProgramId::Reth {
-            let input = get_reth_input(args);
-            ExecutorEnv::builder()
-                .segment_limit_po2(args.shard_size as u32)
-                .write(&input)
-                .expect("Failed to write input to executor")
-                .build()
-                .unwrap()
-        } else {
-            ExecutorEnv::builder().segment_limit_po2(args.shard_size as u32).build().unwrap()
-        };
+        let env = build_env(args);
         let opts = ProverOpts::default();
         let prover = get_prover_server(&opts).unwrap();
 

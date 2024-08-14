@@ -8,10 +8,7 @@ use powdr_pipeline::Pipeline;
 
 use cfg_if::cfg_if;
 
-use crate::{
-    utils::{get_reth_input, time_operation},
-    EvalArgs, HashFnId, PerformanceReport, ProgramId, ProverId,
-};
+use crate::{utils::*, EvalArgs, HashFnId, PerformanceReport, ProgramId, ProverId};
 
 pub struct PowdrEvaluator;
 
@@ -47,10 +44,17 @@ impl PowdrEvaluator {
             .with_backend(backend, None)
             .with_pil_object();
 
-        if args.program == ProgramId::Reth {
-            // add data input for Reth
-            let data = vec![(0, get_reth_input(args))];
-            pipeline = pipeline.add_data_vec(&data[..]);
+        // set program inputs
+        match args.program {
+            ProgramId::Brainfuck => {
+                let (program, input) = get_brainfuck_input(args);
+                pipeline = pipeline.add_data(0, &program).add_data(1, &input)
+            }
+            ProgramId::Reth => {
+                let data = vec![(0, get_reth_input(args))];
+                pipeline = pipeline.add_data_vec(&data[..]);
+            }
+            _ => {}
         }
 
         // execute with continuations
