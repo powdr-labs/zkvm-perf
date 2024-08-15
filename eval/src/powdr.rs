@@ -19,6 +19,9 @@ fn run<T: FieldElement>(
     args: &EvalArgs,
     mut pipeline: powdr_pipeline::Pipeline<T>,
 ) -> PerformanceReport {
+    println!("running powdr with no continuations...");
+    // pre-compute fixed cols
+    pipeline.compute_fixed_cols().expect("error generating fixed columns");
     // compute witness
     let start = Instant::now();
     pipeline.compute_witness().unwrap();
@@ -83,7 +86,12 @@ fn run_with_continuations<T: FieldElement>(
     args: &EvalArgs,
     mut pipeline: powdr_pipeline::Pipeline<T>,
 ) -> PerformanceReport {
+    println!("running powdr with continuations...");
+    // pre-compute fixed columns
+    pipeline.compute_fixed_cols().expect("error generating fixed columns");
+
     // execute with continuations
+    println!("continuations dry run...");
     let start = Instant::now();
     let bootloader_inputs =
         powdr_riscv::continuations::rust_continuations_dry_run(&mut pipeline, None);
@@ -98,6 +106,7 @@ fn run_with_continuations<T: FieldElement>(
         Ok(())
     };
     // this will save the witness for each chunk N in its own `chunk_N` directory
+    println!("continuations witgen...");
     powdr_riscv::continuations::rust_continuations(
         pipeline.clone(),
         generate_witness,
@@ -107,10 +116,15 @@ fn run_with_continuations<T: FieldElement>(
     let witgen_time = start.elapsed();
     println!("continuations witgen time: {witgen_time:?}");
 
+    // // load computed fixed cols
+    // println!("read fixed columns...");
+    // let mut pipeline = pipeline.read_constants(OUTPUT_DIR.as_ref());
+
     // compute proof for each chunk
     let mut core_proof_duration = Duration::default();
     let mut core_proof_size = 0;
     let mut proofs = vec![];
+    println!("proving chunks...");
     for chunk in 0..num_chunks {
         let witness_dir: PathBuf = format!("{OUTPUT_DIR}/chunk_{chunk}").into();
         let mut pipeline =
@@ -128,10 +142,12 @@ fn run_with_continuations<T: FieldElement>(
 
     // verify each chunk
     let mut core_verification_time = Duration::default();
+    println!("exporting verification key...");
     {
         let mut writer = std::fs::File::create(format!("{OUTPUT_DIR}/vkey.bin")).unwrap();
         pipeline.export_verification_key(&mut writer).unwrap();
     }
+    println!("verifying chunks...");
     for chunk in 0..num_chunks {
         let (_, time) = time_operation(|| {
             pipeline.verify(&proofs[chunk], &[vec![]]).unwrap();
@@ -203,7 +219,7 @@ impl PowdrEvaluator {
             }
             program => {
                 let path = format!("programs/{}", program.to_string());
-                compile_program::<GoldilocksField>(path, true).unwrap()
+                compile_program::<GoldilocksField>(path, !args.powdr_no_continuations).unwrap()
             }
         };
 
@@ -228,8 +244,8 @@ impl PowdrEvaluator {
             .with_output(dir.into(), true)
             .with_prover_inputs(vec![])
             // .with_setup_file()
-            .with_backend(backend, None)
-            .with_pil_object();
+            // .with_pil_object()
+            .with_backend(backend, None);
 
         // set program inputs
         match args.program {
@@ -248,7 +264,13 @@ impl PowdrEvaluator {
         match args.program {
             // non-riscv programs can't run with continuations
             ProgramId::BrainfuckAsm | ProgramId::BrainfuckCompiler => run(args, pipeline),
-            _ => run_with_continuations(args, pipeline),
+            _ => {
+                if args.powdr_no_continuations {
+                    run(args, pipeline)
+                } else {
+                    run_with_continuations(args, pipeline)
+                }
+            }
         }
     }
 }
@@ -257,11 +279,15 @@ fn compile_program<F: FieldElement>(
     crate_path: String,
     with_continuations: bool,
 ) -> Option<(PathBuf, String)> {
-    println!("compiling {}...", crate_path.to_string());
+    println!("compiling {} (continuations={with_continuations})...", crate_path.to_string());
 
     let output_dir: PathBuf = OUTPUT_DIR.into();
     let force_overwrite = true;
-    let runtime = powdr_riscv::Runtime::base().with_poseidon_for_continuations();
+    let runtime = if with_continuations {
+        powdr_riscv::Runtime::base().with_poseidon_for_continuations()
+    } else {
+        powdr_riscv::Runtime::base().with_poseidon_no_continuations()
+    };
     let via_elf = true;
 
     let res = powdr_riscv::compile_rust::<F>(

@@ -36,6 +36,8 @@ pub struct EvalArgs {
     shard_size: u64,
     #[arg(long)]
     filename: String,
+    #[arg(long)]
+    powdr_no_continuations: bool,
     program_inputs: Vec<String>,
 }
 
