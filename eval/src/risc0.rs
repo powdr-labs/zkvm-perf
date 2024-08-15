@@ -28,6 +28,9 @@ fn build_env(args: &EvalArgs) -> ExecutorEnv {
                 .build()
                 .unwrap()
         }
+        ProgramId::BrainfuckAsm | ProgramId::BrainfuckCompiler => {
+            panic!("{} is a powdr only benchmark", args.program.to_string())
+        }
         _ => ExecutorEnv::builder().segment_limit_po2(args.shard_size as u32).build().unwrap(),
     }
 }

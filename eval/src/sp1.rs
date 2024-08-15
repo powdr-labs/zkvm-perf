@@ -35,6 +35,9 @@ impl SP1Evaluator {
                 stdin.write(&input);
                 stdin
             }
+            ProgramId::BrainfuckAsm | ProgramId::BrainfuckCompiler => {
+                panic!("{} is a powdr only benchmark", args.program.to_string())
+            }
             _ => SP1Stdin::new(),
         };
 

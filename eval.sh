@@ -2,42 +2,33 @@
 set -e
 echo "Running $1, $2, $3, $4, $5"
 
-# Get program directory name as $1 and append "-$2" to it if $1 == "tendermint"
-if [ "$1" = "tendermint" ] || [ "$1" = "reth" ]; then
-    if [[ "$2" == powdr-* ]]; then
-        program_directory="${1}-powdr"
-    else
-        program_directory="${1}-$2"
-    fi
-else
-    program_directory="$1"
+# if there's a specific crate for the prover, use it
+program_dir="programs/${1}"
+if [ -d "${program_dir}-${2}" ]; then
+    program_dir="${program_dir}-${2}"
 fi
 
-echo "Building program"
-
-# cd to program directory computed above
-cd "programs/$program_directory"
-
-# If the prover is sp1, then build the program.
+# compile the program if SP1 or RISC0 (powdr is compiled inside `eval`)
 if [ "$2" == "sp1" ]; then
+    echo "Building program for SP1"
+    pushd "${program_dir}"
     # The reason we don't just use `cargo prove build` from the SP1 CLI is we need to pass a --features ...
     # flag to select between sp1 and risc0.
     RUSTFLAGS="-C passes=loweratomic -C link-arg=-Ttext=0x00200800 -C panic=abort" \
         RUSTUP_TOOLCHAIN=succinct \
         CARGO_BUILD_TARGET=riscv32im-succinct-zkvm-elf \
         cargo build --release --ignore-rust-version --features $2
-fi
-# If the prover is risc0, then build the program.
-if [ "$2" == "risc0" ]; then
-    echo "Building Risc0"
+    popd
+elif [ "$2" == "risc0" ]; then
+    echo "Building program for Risc0"
+    pushd "${program_dir}"
     # Use the risc0 toolchain.
     RUSTFLAGS="-C passes=loweratomic -C link-arg=-Ttext=0x00200800 -C panic=abort" \
         RUSTUP_TOOLCHAIN=risc0 \
         CARGO_BUILD_TARGET=riscv32im-risc0-zkvm-elf \
         cargo build --release --ignore-rust-version --features $2
+    popd
 fi
-
-cd ../../
 
 echo "Running eval script"
 
