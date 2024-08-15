@@ -38,10 +38,15 @@ tendermint-jolt = { path = "../programs/tendermint-jolt", optional = true }
 sha2-chain-jolt = { path = "../programs/sha2-chain-jolt", optional = true }
 
 # powdr
-# TODO: just these point to main branch later
-powdr-number = { git = "https://github.com/powdr-labs/powdr.git", branch = "tmp-submachine-degrees", optional = true }
-powdr-riscv = { git = "https://github.com/powdr-labs/powdr.git", branch = "tmp-submachine-degrees", optional = true }
-powdr-pipeline = { git = "https://github.com/powdr-labs/powdr.git", branch = "tmp-submachine-degrees", optional = true }
+
+# TODO: remove
+# powdr-number = { git = "https://github.com/powdr-labs/powdr.git", branch = "tmp-submachine-degrees", optional = true }
+# powdr-riscv = { git = "https://github.com/powdr-labs/powdr.git", branch = "tmp-submachine-degrees", optional = true }
+# powdr-pipeline = { git = "https://github.com/powdr-labs/powdr.git", branch = "tmp-submachine-degrees", optional = true }
+
+powdr-number = { git = "https://github.com/powdr-labs/powdr.git", optional = true }
+powdr-riscv = { git = "https://github.com/powdr-labs/powdr.git", optional = true }
+powdr-pipeline = { git = "https://github.com/powdr-labs/powdr.git", optional = true }
 
 # so we can enable the avx512 feature
 starky = { git = "https://github.com/0xEigenLabs/eigen-zkvm.git", rev = "cf405b2e2cecb8567cfd083a55936b71722276d5", optional = true }

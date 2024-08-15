@@ -10,6 +10,9 @@ use cfg_if::cfg_if;
 
 use crate::{utils::*, EvalArgs, HashFnId, PerformanceReport, ProgramId, ProverId};
 
+// TODO: build to some other directory?
+const OUTPUT_DIR: &str = "/tmp";
+
 pub struct PowdrEvaluator;
 
 fn run<T: FieldElement>(
@@ -76,8 +79,6 @@ fn run_with_continuations<T: FieldElement>(
     args: &EvalArgs,
     mut pipeline: powdr_pipeline::Pipeline<T>,
 ) -> PerformanceReport {
-    let dir = pipeline.output_dir().clone().unwrap();
-
     // execute with continuations
     let start = Instant::now();
     let bootloader_inputs =
@@ -107,8 +108,7 @@ fn run_with_continuations<T: FieldElement>(
     let mut core_proof_size = 0;
     let mut proofs = vec![];
     for chunk in 0..num_chunks {
-        let mut witness_dir = dir.clone();
-        witness_dir.push(&format!("/chunk_{chunk}"));
+        let witness_dir: PathBuf = format!("{OUTPUT_DIR}/chunk_{chunk}").into();
         let mut pipeline =
             pipeline.clone().read_witness(&witness_dir).with_output(witness_dir, true);
         let (proof, chunk_duration) = time_operation(|| pipeline.compute_proof().unwrap().clone());
@@ -255,8 +255,7 @@ fn compile_program<F: FieldElement>(
 ) -> Option<(PathBuf, String)> {
     println!("compiling {}...", crate_path.to_string());
 
-    // TODO: build to some other directory?
-    let output_dir: PathBuf = format!("/tmp/").into();
+    let output_dir: PathBuf = OUTPUT_DIR.into();
     let force_overwrite = true;
     let runtime = powdr_riscv::Runtime::base().with_poseidon_for_continuations();
     let via_elf = true;
