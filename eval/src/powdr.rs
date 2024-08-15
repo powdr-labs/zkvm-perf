@@ -198,6 +198,10 @@ impl PowdrEvaluator {
     pub fn eval(args: &EvalArgs) -> PerformanceReport {
         assert!(args.hashfn == HashFnId::Poseidon);
 
+        // setup logger
+        let mut builder = env_logger::Builder::new();
+        builder.parse_default_env().target(env_logger::Target::Stdout).init();
+
         // generate powdr asm
         let (path, asm) = match &args.program {
             ProgramId::Tendermint => {
