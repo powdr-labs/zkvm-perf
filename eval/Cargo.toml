@@ -54,6 +54,7 @@ starky = { git = "https://github.com/0xEigenLabs/eigen-zkvm.git", rev = "cf405b2
 # reth
 sp1-reth-primitives = { git = "https://github.com/succinctlabs/sp1-reth.git", branch = "john/update-for-v1" }
 chrono = "0.4.38"
+env_logger = "0.10.0"
 
 [features]
 default = []

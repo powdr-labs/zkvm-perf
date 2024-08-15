@@ -81,6 +81,10 @@ pub struct PerformanceReport {
 fn main() {
     let args = EvalArgs::parse();
 
+    // setup logger
+    let mut builder = env_logger::Builder::new();
+    builder.parse_default_env().target(env_logger::Target::Stdout).init();
+
     // Select the correct implementation based on the prover.
     let report: PerformanceReport = match args.prover {
         ProverId::Risc0 => {
