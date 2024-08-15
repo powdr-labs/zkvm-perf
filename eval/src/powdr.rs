@@ -33,6 +33,10 @@ fn run<T: FieldElement>(
     let core_proof_size = proof.len();
     // verify
     let mut pipeline = pipeline.clone();
+    {
+        let mut writer = std::fs::File::create(format!("{OUTPUT_DIR}/vkey.bin")).unwrap();
+        pipeline.export_verification_key(&mut writer).unwrap();
+    }
     let (_, core_verification_time) = time_operation(|| {
         pipeline.verify(proof, &[vec![]]).unwrap();
     });
@@ -124,10 +128,10 @@ fn run_with_continuations<T: FieldElement>(
 
     // verify each chunk
     let mut core_verification_time = Duration::default();
-    // {
-    //     let mut writer = std::fs::File::create("/tmp/vkey.bin").unwrap();
-    //     pipeline.export_verification_key(&mut writer).unwrap();
-    // }
+    {
+        let mut writer = std::fs::File::create(format!("{OUTPUT_DIR}/vkey.bin")).unwrap();
+        pipeline.export_verification_key(&mut writer).unwrap();
+    }
     for chunk in 0..num_chunks {
         let (_, time) = time_operation(|| {
             pipeline.verify(&proofs[chunk], &[vec![]]).unwrap();
