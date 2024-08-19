@@ -90,7 +90,6 @@ impl SP1Evaluator {
             time_operation(|| server.compress(&vk, core_proof, vec![]).unwrap());
 
         let compress_bytes = bincode::serialize(&compress_proof).unwrap();
-        println!("recursive proof size: {}", compress_bytes.len());
 
         let prove_duration = prove_core_duration + compress_duration;
 
