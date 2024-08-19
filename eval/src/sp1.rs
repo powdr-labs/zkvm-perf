@@ -52,7 +52,7 @@ impl SP1Evaluator {
         let server = SP1ProverServer::new();
 
         // Setup the program.
-        let (pk, vk) = prover.setup(&elf);
+        let ((pk, vk), setup_duration) = time_operation(|| prover.setup(&elf));
 
         // Execute the program.
         let context = SP1Context::default();
@@ -111,6 +111,7 @@ impl SP1Evaluator {
             compress_prove_duration: compress_duration.as_secs_f64(),
             compress_verify_duration: 0.0, // TODO: fill this in.
             compress_proof_size: compress_bytes.len(),
+            setup_duration: setup_duration.as_secs_f64(),
         }
     }
 }

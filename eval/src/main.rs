@@ -78,6 +78,8 @@ pub struct PerformanceReport {
     pub compress_verify_duration: f64,
     /// The size of the recursive proof in bytes.
     pub compress_proof_size: usize,
+    /// Time to setup the prover/verifier.
+    pub setup_duration: f64,
 }
 
 fn main() {
@@ -161,6 +163,7 @@ fn main() {
                 "compress_prove_duration",
                 "compress_verify_duration",
                 "compress_proof_size",
+                "setup_duration",
             ])
             .unwrap();
     }
@@ -181,6 +184,7 @@ fn main() {
             report.compress_prove_duration.to_string(),
             report.compress_verify_duration.to_string(),
             report.compress_proof_size.to_string(),
+            report.setup_duration.to_string(),
         ])
         .unwrap();
     writer.flush().unwrap();

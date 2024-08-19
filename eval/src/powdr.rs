@@ -28,6 +28,10 @@ fn run<T: FieldElement>(
     let witgen_time = start.elapsed();
     // TODO: trace_len
     let trace_len = 0;
+
+    let (_, setup_duration) =
+        time_operation(|| pipeline.setup_backend().expect("could not setup the backend"));
+
     // compute proof
     let start = Instant::now();
     pipeline.compute_proof().unwrap();
@@ -79,6 +83,7 @@ fn run<T: FieldElement>(
         speed: 0.0,
         // The reported duration of the prover in seconds.
         prove_duration: 0.0,
+        setup_duration: setup_duration.as_secs_f64(),
     }
 }
 
@@ -116,9 +121,8 @@ fn run_with_continuations<T: FieldElement>(
     let witgen_time = start.elapsed();
     println!("continuations witgen time: {witgen_time:?}");
 
-    // // load computed fixed cols
-    // println!("read fixed columns...");
-    // let mut pipeline = pipeline.read_constants(OUTPUT_DIR.as_ref());
+    let (_, setup_duration) =
+        time_operation(|| pipeline.setup_backend().expect("could not setup the backend"));
 
     // compute proof for each chunk
     let mut core_proof_duration = Duration::default();
@@ -127,8 +131,7 @@ fn run_with_continuations<T: FieldElement>(
     println!("proving chunks...");
     for chunk in 0..num_chunks {
         let witness_dir: PathBuf = format!("{OUTPUT_DIR}/chunk_{chunk}").into();
-        let mut pipeline =
-            pipeline.clone().read_witness(&witness_dir).with_output(witness_dir, true);
+        pipeline = pipeline.read_witness(&witness_dir).with_output(witness_dir, true);
         let (proof, chunk_duration) = time_operation(|| pipeline.compute_proof().unwrap().clone());
         println!("chunk {chunk} proof time: {chunk_duration:?}");
         let chunk_size = proof.len();
@@ -191,6 +194,7 @@ fn run_with_continuations<T: FieldElement>(
         speed: 0.0,
         // The reported duration of the prover in seconds.
         prove_duration: 0.0,
+        setup_duration: setup_duration.as_secs_f64(),
     }
 }
 

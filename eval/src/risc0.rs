@@ -54,12 +54,14 @@ impl Risc0Evaluator {
         let cycles = session.user_cycles;
 
         // Setup the prover.
+        let start = std::time::Instant::now();
         let env = build_env(args);
         let opts = ProverOpts::default();
         let prover = get_prover_server(&opts).unwrap();
 
         // Generate the session.
         let mut exec = ExecutorImpl::from_elf(env, &elf).unwrap();
+        let setup_duration = start.elapsed();
         let (session, execution_duration) = time_operation(|| exec.run().unwrap());
 
         // Generate the proof.
@@ -114,6 +116,7 @@ impl Risc0Evaluator {
             compress_prove_duration: compress_duration.as_secs_f64(),
             compress_verify_duration: recursive_verify_duration.as_secs_f64(),
             compress_proof_size: recursive_proof_size,
+            setup_duration: setup_duration.as_secs_f64(),
         }
     }
 }
