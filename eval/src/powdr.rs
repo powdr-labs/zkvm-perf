@@ -70,6 +70,8 @@ fn run<T: FieldElement>(
         // The size of the core proof.
         core_proof_size,
         core_speed: (trace_len as f64) / core_proof_duration.as_secs_f64(),
+        // Duration of the setup phase
+        setup_duration: setup_duration.as_secs_f64(),
 
         // TODO: we don't do recursion/compression yet, so these are all 0
 
@@ -83,7 +85,6 @@ fn run<T: FieldElement>(
         speed: 0.0,
         // The reported duration of the prover in seconds.
         prove_duration: 0.0,
-        setup_duration: setup_duration.as_secs_f64(),
     }
 }
 
@@ -181,6 +182,8 @@ fn run_with_continuations<T: FieldElement>(
         // The size of the core proof.
         core_proof_size,
         core_speed: (trace_len as f64) / core_proof_duration.as_secs_f64(),
+        // Duration of the setup phase
+        setup_duration: setup_duration.as_secs_f64(),
 
         // TODO: we don't do recursion/compression yet, so these are all 0
 
@@ -194,7 +197,6 @@ fn run_with_continuations<T: FieldElement>(
         speed: 0.0,
         // The reported duration of the prover in seconds.
         prove_duration: 0.0,
-        setup_duration: setup_duration.as_secs_f64(),
     }
 }
 
