@@ -219,7 +219,7 @@ impl PowdrEvaluator {
                 compile_program::<GoldilocksField>(path, true).unwrap()
             }
             ProgramId::BrainfuckAsm => {
-                let path = format!("programs/brainfuck/brainfuck.asm").into();
+                let path = format!("programs/brainfuck/brainfuck_vm.asm").into();
                 let asm =
                     std::fs::read_to_string(&path).expect("error reading brainfuck powdr asm file");
                 (path, asm)
@@ -259,9 +259,19 @@ impl PowdrEvaluator {
 
         // set program inputs
         match args.program {
-            ProgramId::Brainfuck | ProgramId::BrainfuckAsm | ProgramId::BrainfuckCompiler => {
+            ProgramId::Brainfuck => {
                 let (program, input) = get_brainfuck_input(args);
                 pipeline = pipeline.add_data(0, &program).add_data(1, &input)
+            }
+            ProgramId::BrainfuckAsm | ProgramId::BrainfuckCompiler => {
+                let (program, input) = get_brainfuck_input(args);
+                let prover_inputs = std::iter::once(program.len() as u32)
+                    .chain(program.into_iter())
+                    .chain(std::iter::once(input.len() as u32))
+                    .chain(input)
+                    .map(|n| n.into())
+                    .collect();
+                pipeline = pipeline.with_prover_inputs(prover_inputs);
             }
             ProgramId::Reth => {
                 let data = vec![(0, get_reth_input(args))];

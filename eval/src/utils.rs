@@ -44,23 +44,23 @@ fn read_brainfuck_and_convert(path: &Path) -> Vec<u32> {
         .collect()
 }
 
-fn read_brainfuck_inputs(path: &Path) -> VecDeque<i64> {
+fn read_brainfuck_inputs(path: &Path) -> VecDeque<u32> {
     let content = fs::read_to_string(path).expect("error reading brainfuck input file");
     content
         .split(',')
         .map(|x| x.trim())
         .filter(|x| !x.is_empty())
-        .map(|x| x.parse::<i64>().unwrap())
+        .map(|x| x.parse::<u32>().unwrap())
         .collect()
 }
 
-pub fn get_brainfuck_input(args: &EvalArgs) -> (Vec<u32>, VecDeque<i64>) {
+pub fn get_brainfuck_input(args: &EvalArgs) -> (Vec<u32>, VecDeque<u32>) {
     match &args.program_inputs[..] {
         [program] => (read_brainfuck_and_convert(program.as_ref()), Default::default()),
         [program, input] => {
             (read_brainfuck_and_convert(program.as_ref()), read_brainfuck_inputs(input.as_ref()))
         }
-        _ => panic!("Brainfuck interpreter requires a program and inputs"),
+        _ => panic!("Brainfuck interpreter requires a program and possibly inputs"),
     }
 }
 
