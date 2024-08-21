@@ -58,6 +58,8 @@ fi
 # Set the logging level.
 export RUST_LOG=info
 
+# shard-size is set by MAX_DEGREE_LOG env var in powdr
+export MAX_DEGREE_LOG=$4
 
 # Run the benchmark.
 cargo run \
