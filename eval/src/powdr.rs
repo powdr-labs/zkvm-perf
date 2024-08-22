@@ -222,10 +222,16 @@ impl PowdrEvaluator {
                 let path = format!("programs/brainfuck/brainfuck_vm.asm").into();
                 let asm =
                     std::fs::read_to_string(&path).expect("error reading brainfuck powdr asm file");
-                (path, asm)
+                (Some(path), asm)
             }
             ProgramId::BrainfuckCompiler => {
-                todo!()
+                let (program, _) = get_brainfuck_input(args);
+                let bf_asm = compile_brainfuck(&program[..]);
+                let path = "programs/brainfuck/brainfuck_isa.asm";
+                let bf_isa = std::fs::read_to_string(path).unwrap();
+                let bf_vm = bf_isa.replace("{{ program }}", bf_asm.as_str());
+                println!("{bf_vm}");
+                (Some(path.into()), bf_vm)
             }
             program => {
                 let path = format!("programs/{}", program.to_string());
@@ -250,7 +256,7 @@ impl PowdrEvaluator {
             }
         }
         let mut pipeline = powdr_pipeline::Pipeline::<GoldilocksField>::default()
-            .from_asm_string(asm, Some(path))
+            .from_asm_string(asm, path)
             .with_output(dir.into(), true)
             .with_prover_inputs(vec![])
             // .with_setup_file()
@@ -263,7 +269,7 @@ impl PowdrEvaluator {
                 let (program, input) = get_brainfuck_input(args);
                 pipeline = pipeline.add_data(0, &program).add_data(1, &input)
             }
-            ProgramId::BrainfuckAsm | ProgramId::BrainfuckCompiler => {
+            ProgramId::BrainfuckAsm => {
                 let (program, input) = get_brainfuck_input(args);
                 let prover_inputs = std::iter::once(program.len() as u32)
                     .chain(program.into_iter())
@@ -271,6 +277,12 @@ impl PowdrEvaluator {
                     .chain(input)
                     .map(|n| n.into())
                     .collect();
+                pipeline = pipeline.with_prover_inputs(prover_inputs);
+            }
+            ProgramId::BrainfuckCompiler => {
+                let (_, input) = get_brainfuck_input(args);
+                let prover_inputs =
+                    std::iter::once(input.len() as u32).chain(input).map(|n| n.into()).collect();
                 pipeline = pipeline.with_prover_inputs(prover_inputs);
             }
             ProgramId::Reth => {
@@ -298,7 +310,7 @@ impl PowdrEvaluator {
 fn compile_program<F: FieldElement>(
     crate_path: String,
     with_continuations: bool,
-) -> Option<(PathBuf, String)> {
+) -> Option<(Option<PathBuf>, String)> {
     println!("compiling {} (continuations={with_continuations})...", crate_path.to_string());
 
     let output_dir: PathBuf = OUTPUT_DIR.into();
@@ -320,5 +332,5 @@ fn compile_program<F: FieldElement>(
         // enable powdr feature on compiled program
         Some(vec!["powdr".to_string()]),
     );
-    res
+    res.map(|(path, asm)| (Some(path), asm))
 }

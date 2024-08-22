@@ -1,7 +1,7 @@
 extern crate alloc;
 use std::collections::VecDeque;
 
-pub fn run(mut program: Vec<u32>, mut inputs: VecDeque<i64>) -> (u64, Vec<u8>) {
+pub fn run(program: Vec<u32>, mut inputs: VecDeque<u32>) -> (u64, Vec<u8>) {
     let mut pc: usize = 0;
     let mut data_ptr: usize = 0;
     let mut loop_stack: Vec<usize> = Vec::new();
@@ -28,7 +28,8 @@ pub fn run(mut program: Vec<u32>, mut inputs: VecDeque<i64>) -> (u64, Vec<u8>) {
         } else if op == 45 {
             memory[data_ptr] -= 1;
         } else if op == 44 {
-            memory[data_ptr] = inputs.pop_front().unwrap_or(-1);
+            // read -1 on EOF
+            memory[data_ptr] = inputs.pop_front().map(|i| i as i64).unwrap_or(-1);
         } else if op == 46 {
             output.push(memory[data_ptr] as u8);
         } else if op == 91 {

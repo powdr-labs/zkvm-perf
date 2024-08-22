@@ -29,18 +29,18 @@ mod interpreter;
 use std::collections::VecDeque;
 
 #[cfg(feature = "powdr")]
-fn read_program_and_inputs() -> (Vec<u32>, VecDeque<i64>) {
+fn read_program_and_inputs() -> (Vec<u32>, VecDeque<u32>) {
     use powdr_riscv_runtime::io::read;
     (read(0), read(1))
 }
 
 #[cfg(feature = "sp1")]
-fn read_program_and_inputs() -> (Vec<u32>, VecDeque<i64>) {
+fn read_program_and_inputs() -> (Vec<u32>, VecDeque<u32>) {
     sp1_zkvm::io::read()
 }
 
 #[cfg(feature = "risc0")]
-fn read_program_and_inputs() -> (Vec<u32>, VecDeque<i64>) {
+fn read_program_and_inputs() -> (Vec<u32>, VecDeque<u32>) {
     risc0_zkvm::guest::env::read()
 }
 
