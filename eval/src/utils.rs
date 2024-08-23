@@ -113,12 +113,7 @@ pub fn compile_brainfuck(program: &[u32]) -> String {
             '+' => asm.push("inc_cell;".to_string()),
             '-' => asm.push("dec_cell;".to_string()),
             ',' => {
-                asm.push(
-                    "data <=X= ${ Query::Input(std::convert::int(std::prover::eval(in_ptr))) };"
-                        .to_string(),
-                );
-                asm.push("mstore data;".to_string());
-                asm.push("in_ptr <=X= in_ptr + 1;".to_string());
+                asm.push("read;".to_string());
             }
             '.' => {
                 asm.push("data <== mload();".to_string());
@@ -145,5 +140,5 @@ pub fn compile_brainfuck(program: &[u32]) -> String {
         }
     }
     asm.push("return;".to_string());
-    asm.join("\n")
+    asm.join("\n        ")
 }

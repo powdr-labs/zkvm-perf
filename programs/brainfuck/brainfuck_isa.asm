@@ -12,8 +12,11 @@ machine Brainfuck {
 
     // data pointer
     reg dp;
-    // program's input counter
-    reg in_ptr;
+    // remaining input count
+    reg in_remaining;
+    let EOF = std::utils::is_zero(in_remaining);
+    // total input count
+    reg in_count;
     // helper data container
     reg data;
 
@@ -37,6 +40,16 @@ machine Brainfuck {
     // helper column
     col witness C;
 
+    col witness Input(unused) query Query::Input(to_int(std::prover::eval(in_count - in_remaining) + 1) % (to_int(std::prover::eval(in_count)) + 1));
+
+    // read will store a -1 on EOF
+    instr read
+        link if (1 - EOF) ~> mem.mstore(dp, STEP, Input)
+        link if EOF ~> mem.mstore(dp, STEP, -1)
+    {
+        in_remaining' = in_remaining - (1 - EOF)
+    }
+
     instr inc_cell
        link ~> C = mem.mload(dp, STEP)
        link ~> mem.mstore(dp, STEP, C + 1);
@@ -54,6 +67,9 @@ machine Brainfuck {
         link ~> mem.mstore(dp, STEP, X);
 
     function main {
+        // we expect Query::Input(0) to be the number of inputs
+        in_count <=X= ${ Query::Input(0) };
+        in_remaining <=X= in_count;
         // compiled Brainfuck program
         {{ program }}
     }
