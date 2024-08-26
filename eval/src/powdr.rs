@@ -26,8 +26,15 @@ fn run<T: FieldElement>(
     let start = Instant::now();
     pipeline.compute_witness().unwrap();
     let witgen_time = start.elapsed();
-    // TODO: trace_len
-    let trace_len = 0;
+    // TODO: is this right?
+    let trace_len = {
+        let cols = pipeline.witness().unwrap();
+        cols.iter()
+            .filter(|(name, _)| name == "main::pc")
+            .map(|(_, col)| col.len() as u64)
+            .next()
+            .unwrap()
+    };
 
     let (_, setup_duration) =
         time_operation(|| pipeline.setup_backend().expect("could not setup the backend"));
@@ -102,10 +109,7 @@ fn run_with_continuations<T: FieldElement>(
     let bootloader_inputs =
         powdr_riscv::continuations::rust_continuations_dry_run(&mut pipeline, None);
 
-    // TODO: is this the correct trace size?
-    let trace_len: u64 = bootloader_inputs.iter().map(|(_, n)| n).sum();
     let num_chunks = bootloader_inputs.len();
-    println!("trace length: {trace_len}");
 
     let generate_witness = |mut pipeline: Pipeline<T>| -> Result<(), Vec<String>> {
         pipeline.compute_witness().unwrap();
@@ -129,10 +133,20 @@ fn run_with_continuations<T: FieldElement>(
     let mut core_proof_duration = Duration::default();
     let mut core_proof_size = 0;
     let mut proofs = vec![];
+    let mut trace_len = 0;
     println!("proving chunks...");
     for chunk in 0..num_chunks {
         let witness_dir: PathBuf = format!("{OUTPUT_DIR}/chunk_{chunk}").into();
         pipeline = pipeline.read_witness(&witness_dir).with_output(witness_dir, true);
+        // TODO: is this the proper way to get the trace length?
+        trace_len += {
+            let cols = pipeline.witness().unwrap();
+            cols.iter()
+                .filter(|(name, _)| name == "main::pc")
+                .map(|(_, col)| col.len() as u64)
+                .next()
+                .unwrap()
+        };
         let (proof, chunk_duration) = time_operation(|| pipeline.compute_proof().unwrap().clone());
         println!("chunk {chunk} proof time: {chunk_duration:?}");
         let chunk_size = proof.len();
