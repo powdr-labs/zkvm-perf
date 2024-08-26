@@ -10,7 +10,7 @@ pub struct Risc0Evaluator;
 
 fn build_env(args: &EvalArgs) -> ExecutorEnv {
     match args.program {
-        ProgramId::Brainfuck => {
+        ProgramId::BrainfuckRust => {
             let input = get_brainfuck_input(args);
             ExecutorEnv::builder()
                 .segment_limit_po2(args.shard_size as u32)

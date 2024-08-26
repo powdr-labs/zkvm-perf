@@ -279,7 +279,7 @@ impl PowdrEvaluator {
 
         // set program inputs
         match args.program {
-            ProgramId::Brainfuck => {
+            ProgramId::BrainfuckRust => {
                 let (program, input) = get_brainfuck_input(args);
                 pipeline = pipeline.add_data(0, &program).add_data(1, &input)
             }
