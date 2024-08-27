@@ -59,7 +59,10 @@ fi
 export RUST_LOG=info
 
 # shard-size is set by MAX_DEGREE_LOG env var in powdr
-export MAX_DEGREE_LOG=$4
+# TODO: we shift it by 2 (i.e., multiply by 4) because, in powdr,
+# there is a division by 4 to get the trace that fits inside a chunk (due to the
+# expectation of a memory machine 4x larger than main)
+export MAX_DEGREE_LOG=$(( $4 + 2 ))
 
 # Run the benchmark.
 cargo run \
