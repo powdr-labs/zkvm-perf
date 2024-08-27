@@ -73,4 +73,4 @@ cargo run \
     --hashfn $3 \
     --shard-size $4 \
     --filename $5 \
-    ${@:6}
+    ${@:6} 2>&1 | tee benchmarks/${1}_${2}_${3}_${4}.log
