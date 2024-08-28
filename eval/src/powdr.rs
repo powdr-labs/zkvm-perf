@@ -15,10 +15,7 @@ const OUTPUT_DIR: &str = "/tmp";
 
 pub struct PowdrEvaluator;
 
-fn run<T: FieldElement>(
-    args: &EvalArgs,
-    mut pipeline: powdr_pipeline::Pipeline<T>,
-) -> PerformanceReport {
+fn run<T: FieldElement>(mut pipeline: powdr_pipeline::Pipeline<T>) -> PerformanceReport {
     println!("running powdr with no continuations...");
     // pre-compute fixed cols
     pipeline.compute_fixed_cols().expect("error generating fixed columns");
@@ -74,7 +71,6 @@ fn run<T: FieldElement>(
 }
 
 fn run_with_continuations<T: FieldElement>(
-    args: &EvalArgs,
     mut pipeline: powdr_pipeline::Pipeline<T>,
 ) -> PerformanceReport {
     println!("running powdr with continuations...");
@@ -251,12 +247,12 @@ impl PowdrEvaluator {
         // run the pipeline
         match args.program {
             // non-riscv programs can't run with continuations
-            ProgramId::BrainfuckAsm | ProgramId::BrainfuckCompiler => run(args, pipeline),
+            ProgramId::BrainfuckAsm | ProgramId::BrainfuckCompiler => run(pipeline),
             _ => {
                 if args.powdr_no_continuations {
-                    run(args, pipeline)
+                    run(pipeline)
                 } else {
-                    run_with_continuations(args, pipeline)
+                    run_with_continuations(pipeline)
                 }
             }
         }
