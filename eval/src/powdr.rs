@@ -84,10 +84,10 @@ fn run_with_continuations<T: FieldElement>(
     // execute with continuations
     println!("continuations dry run...");
     let start = Instant::now();
-    let bootloader_inputs =
-        powdr_riscv::continuations::rust_continuations_dry_run(&mut pipeline, None);
+    let dry_run = powdr_riscv::continuations::rust_continuations_dry_run(&mut pipeline, None);
 
-    let num_chunks = bootloader_inputs.len();
+    let num_chunks = dry_run.bootloader_inputs.len();
+    let trace_len = dry_run.trace_len as u64;
 
     let generate_witness = |mut pipeline: Pipeline<T>| -> Result<(), Vec<String>> {
         pipeline.compute_witness().unwrap();
@@ -95,12 +95,8 @@ fn run_with_continuations<T: FieldElement>(
     };
     // this will save the witness for each chunk N in its own `chunk_N` directory
     println!("continuations witgen...");
-    powdr_riscv::continuations::rust_continuations(
-        pipeline.clone(),
-        generate_witness,
-        bootloader_inputs,
-    )
-    .expect("error executing with continuations");
+    powdr_riscv::continuations::rust_continuations(pipeline.clone(), generate_witness, dry_run)
+        .expect("error executing with continuations");
     let witgen_time = start.elapsed();
     println!("continuations witgen time: {witgen_time:?}");
 
@@ -111,20 +107,10 @@ fn run_with_continuations<T: FieldElement>(
     let mut core_proof_duration = Duration::default();
     let mut core_proof_size = 0;
     let mut proofs = vec![];
-    let mut trace_len = 0;
     println!("proving chunks...");
     for chunk in 0..num_chunks {
         let witness_dir: PathBuf = format!("{OUTPUT_DIR}/chunk_{chunk}").into();
         pipeline = pipeline.read_witness(&witness_dir).with_output(witness_dir, true);
-        // TODO: is this the proper way to get the trace length?
-        trace_len += {
-            let cols = pipeline.witness().unwrap();
-            cols.iter()
-                .filter(|(name, _)| name == "main::pc")
-                .map(|(_, col)| col.len() as u64)
-                .next()
-                .unwrap()
-        };
         let (proof, chunk_duration) = time_operation(|| pipeline.compute_proof().unwrap().clone());
         println!("chunk {chunk} proof time: {chunk_duration:?}");
         let chunk_size = proof.len();
