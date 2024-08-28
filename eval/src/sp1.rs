@@ -23,7 +23,7 @@ impl SP1Evaluator {
 
         // set program inputs
         let stdin = match args.program {
-            ProgramId::BrainfuckRust => {
+            ProgramId::Brainfuck => {
                 let input = get_brainfuck_input(args);
                 let mut stdin = SP1Stdin::new();
                 stdin.write(&input);

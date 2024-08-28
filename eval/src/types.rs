@@ -10,7 +10,7 @@ pub enum ProgramId {
     Reth,
     Keccak,
     // brainfuck interpreter in Rust
-    BrainfuckRust,
+    Brainfuck,
     // brainfuck interpreter handwritten in Powdr ASM
     BrainfuckAsm,
     // brainfuck compiled into Powdr ASM
@@ -47,7 +47,7 @@ impl ProgramId {
             ProgramId::Sha2Chain => "sha2-chain".to_string(),
             ProgramId::Reth => "reth".to_string(),
             ProgramId::Keccak => "keccak".to_string(),
-            ProgramId::BrainfuckRust => "brainfuck".to_string(),
+            ProgramId::Brainfuck => "brainfuck".to_string(),
             ProgramId::BrainfuckAsm => "brainfuck-asm".to_string(),
             ProgramId::BrainfuckCompiler => "brainfuck-compiler".to_string(),
         }
