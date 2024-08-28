@@ -95,10 +95,6 @@ impl SP1Evaluator {
 
         // Create the performance report.
         PerformanceReport {
-            program: args.program.to_string(),
-            prover: args.prover.to_string(),
-            hashfn: args.hashfn.to_string(),
-            shard_size: args.shard_size,
             shards: num_shards,
             cycles: cycles as u64,
             speed: (cycles as f64) / prove_core_duration.as_secs_f64(),

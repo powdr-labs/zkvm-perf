@@ -44,14 +44,6 @@ pub struct EvalArgs {
 /// The performance report of a zkVM on a program.
 #[derive(Debug, Serialize, Default)]
 pub struct PerformanceReport {
-    /// The program that is being evaluated.
-    pub program: String,
-    /// The prover that is being evaluated.
-    pub prover: String,
-    /// The hash function that is being evaluated.
-    pub hashfn: String,
-    /// The shard size that is being evaluated.
-    pub shard_size: u64,
     /// The number of shards.
     pub shards: usize,
     /// The reported number of cycles.
@@ -149,6 +141,7 @@ fn main() {
         writer
             .write_record(&[
                 "program",
+                "program_args",
                 "prover",
                 "hashfn",
                 "shard_size",
@@ -169,10 +162,11 @@ fn main() {
     }
     writer
         .serialize(&[
-            report.program,
-            report.prover,
-            report.hashfn,
-            report.shard_size.to_string(),
+            args.program.to_string(),
+            args.program_inputs.join(" "),
+            args.prover.to_string(),
+            args.hashfn.to_string(),
+            args.shard_size.to_string(),
             report.shards.to_string(),
             report.cycles.to_string(),
             report.speed.to_string(),

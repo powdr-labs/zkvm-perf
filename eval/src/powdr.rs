@@ -26,7 +26,7 @@ fn run<T: FieldElement>(
     let start = Instant::now();
     pipeline.compute_witness().unwrap();
     let witgen_time = start.elapsed();
-    // TODO: is this right?
+    // TODO: we're not necessarily proving RISCV programs, so "cycles" is not a thing necessarily
     let trace_len = {
         let cols = pipeline.witness().unwrap();
         cols.iter()
@@ -56,41 +56,19 @@ fn run<T: FieldElement>(
     });
 
     PerformanceReport {
-        // The program that is being evaluated.
-        program: args.program.to_string(),
-        // The prover that is being evaluated.
-        prover: args.prover.to_string(),
-        // The hash function that is being evaluated.
-        hashfn: args.hashfn.to_string(),
-        // The shard size that is being evaluated.
-        shard_size: args.shard_size,
-        // The number of shards.
         shards: 1,
-        // The reported number of cycles.
         cycles: trace_len,
-        // The reported duration of the execution in seconds.
         execution_duration: witgen_time.as_secs_f64(),
-        // The reported duration of the core proving time in seconds.
         core_prove_duration: core_proof_duration.as_secs_f64(),
-        // The reported duration of the verifier in seconds.
         core_verify_duration: core_verification_time.as_secs_f64(),
-        // The size of the core proof.
         core_proof_size,
         core_speed: (trace_len as f64) / core_proof_duration.as_secs_f64(),
-        // Duration of the setup phase
         setup_duration: setup_duration.as_secs_f64(),
-
         // TODO: we don't do recursion/compression yet, so these are all 0
-
-        // The reported duration of the recursive proving time in seconds.
         compress_prove_duration: 0.0,
-        // The reported duration of the verifier in seconds.
         compress_verify_duration: 0.0,
-        // The size of the recursive proof in bytes.
         compress_proof_size: 0,
-        // The reported speed in cycles per second.
         speed: 0.0,
-        // The reported duration of the prover in seconds.
         prove_duration: 0.0,
     }
 }
@@ -175,41 +153,19 @@ fn run_with_continuations<T: FieldElement>(
     }
 
     PerformanceReport {
-        // The program that is being evaluated.
-        program: args.program.to_string(),
-        // The prover that is being evaluated.
-        prover: args.prover.to_string(),
-        // The hash function that is being evaluated.
-        hashfn: args.hashfn.to_string(),
-        // The shard size that is being evaluated.
-        shard_size: args.shard_size,
-        // The number of shards.
         shards: num_chunks,
-        // The reported number of cycles.
         cycles: trace_len,
-        // The reported duration of the execution in seconds.
         execution_duration: witgen_time.as_secs_f64(),
-        // The reported duration of the core proving time in seconds.
         core_prove_duration: core_proof_duration.as_secs_f64(),
-        // The reported duration of the verifier in seconds.
         core_verify_duration: core_verification_time.as_secs_f64(),
-        // The size of the core proof.
         core_proof_size,
         core_speed: (trace_len as f64) / core_proof_duration.as_secs_f64(),
-        // Duration of the setup phase
         setup_duration: setup_duration.as_secs_f64(),
-
         // TODO: we don't do recursion/compression yet, so these are all 0
-
-        // The reported duration of the recursive proving time in seconds.
         compress_prove_duration: 0.0,
-        // The reported duration of the verifier in seconds.
         compress_verify_duration: 0.0,
-        // The size of the recursive proof in bytes.
         compress_proof_size: 0,
-        // The reported speed in cycles per second.
         speed: 0.0,
-        // The reported duration of the prover in seconds.
         prove_duration: 0.0,
     }
 }
