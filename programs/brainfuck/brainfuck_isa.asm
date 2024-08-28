@@ -14,11 +14,17 @@ machine Brainfuck {
     reg dp;
     // remaining input count
     reg in_remaining;
-    let EOF = std::utils::is_zero(in_remaining);
     // total input count
     reg in_count;
     // helper data container
     reg data;
+
+    // FIXME: std::utils::is_zero() does not work
+    // on normal (non-assignment) registers because witgen can't handle that
+    // they are not constrainted to 0 on row 0.
+    // As a hack, we pass in_remaining through X so we can use XIsZero as EOF
+
+    // let EOF = std::utils::is_zero(in_remaining);
 
     // iszero check for X
     let XIsZero = std::utils::is_zero(X);
@@ -42,12 +48,13 @@ machine Brainfuck {
 
     col witness Input(unused) query Query::Input(to_int(std::prover::eval(in_count - in_remaining) + 1) % (to_int(std::prover::eval(in_count)) + 1));
 
-    // read will store a -1 on EOF
-    instr read
-        link if (1 - EOF) ~> mem.mstore(dp, STEP, Input)
-        link if EOF ~> mem.mstore(dp, STEP, -1)
+
+    // FIXME: XIsZero == EOF, see comment on `let EOF` above why we use X here
+    instr read X
+        link if (1 - XIsZero) ~> mem.mstore(dp, STEP, Input)
+        link if XIsZero ~> mem.mstore(dp, STEP, -1)
     {
-        in_remaining' = in_remaining - (1 - EOF)
+        in_remaining' = in_remaining - (1 - XIsZero)
     }
 
     instr inc_cell

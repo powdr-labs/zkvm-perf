@@ -113,7 +113,7 @@ pub fn compile_brainfuck(program: &[u32]) -> String {
             '+' => asm.push("inc_cell;".to_string()),
             '-' => asm.push("dec_cell;".to_string()),
             ',' => {
-                asm.push("read;".to_string());
+                asm.push("read in_remaining;".to_string());
             }
             '.' => {
                 asm.push("data <== mload();".to_string());
