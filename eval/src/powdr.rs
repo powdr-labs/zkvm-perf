@@ -23,7 +23,7 @@ fn run<T: FieldElement>(mut pipeline: powdr_pipeline::Pipeline<T>) -> Performanc
     let start = Instant::now();
     pipeline.compute_witness().unwrap();
     let witgen_time = start.elapsed();
-    // TODO: we're not necessarily proving RISCV programs, so "cycles" is not a thing necessarily
+    // TODO: we're not proving RISCV programs, so "cycles" is not a thing necessarily
     let trace_len = {
         let cols = pipeline.witness().unwrap();
         cols.iter()
