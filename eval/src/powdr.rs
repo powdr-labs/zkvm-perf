@@ -3,7 +3,7 @@ use std::{
     time::{Duration, Instant},
 };
 
-use powdr_number::{FieldElement, GoldilocksField};
+use powdr_number::{FieldElement, GoldilocksField, KnownField};
 use powdr_pipeline::Pipeline;
 
 use cfg_if::cfg_if;
@@ -267,20 +267,24 @@ fn compile_program<F: FieldElement>(
 
     let output_dir: PathBuf = OUTPUT_DIR.into();
     let force_overwrite = true;
-    let runtime = if with_continuations {
-        powdr_riscv::Runtime::base().with_poseidon_for_continuations()
-    } else {
-        powdr_riscv::Runtime::base().with_poseidon_no_continuations()
+    let options = match F::known_field().unwrap() {
+        KnownField::BabyBearField | KnownField::Mersenne31Field => {
+            todo!()
+        }
+        KnownField::GoldilocksField | KnownField::Bn254Field => {
+            if with_continuations {
+                powdr_riscv::CompilerOptions::new_32().with_poseidon().with_continuations()
+            } else {
+                powdr_riscv::CompilerOptions::new_32()
+            }
+        }
     };
-    let via_elf = true;
 
-    let res = powdr_riscv::compile_rust::<F>(
+    let res = powdr_riscv::compile_rust(
         crate_path.as_str(),
+        options,
         &output_dir,
         force_overwrite,
-        &runtime,
-        via_elf,
-        with_continuations,
         // enable powdr feature on compiled program
         Some(vec!["powdr".to_string()]),
     );
