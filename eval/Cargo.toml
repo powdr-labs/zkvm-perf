@@ -52,7 +52,8 @@ powdr-pipeline = { git = "https://github.com/powdr-labs/powdr.git", optional = t
 starky = { git = "https://github.com/0xEigenLabs/eigen-zkvm.git", rev = "cf405b2e2cecb8567cfd083a55936b71722276d5", optional = true }
 
 # reth
-sp1-reth-primitives = { git = "https://github.com/succinctlabs/sp1-reth.git", branch = "john/update-for-v1" }
+sp1-reth-primitives = { git = "https://github.com/succinctlabs/sp1-reth.git", rev = "ba07e254d65a869fbd0501976c3832e4774915d6" }
+# sp1-reth-primitives = { git = "https://github.com/succinctlabs/sp1-reth.git", branch = "john/update-for-v1" }
 chrono = "0.4.38"
 env_logger = "0.10.0"
 

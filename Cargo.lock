@@ -40,7 +40,7 @@ version = "0.8.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e89da841a80418a9b391ebaea17f5c112ffaaa96f621d2c285b5174da76b9011"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if",
  "getrandom 0.2.15",
  "once_cell",
  "version_check",
@@ -167,7 +167,7 @@ checksum = "ccb3ead547f4532bc8af961649942f0b9c16ee9226e26caa3f38420651cc0bf4"
 dependencies = [
  "alloy-rlp",
  "bytes",
- "cfg-if 1.0.0",
+ "cfg-if",
  "const-hex",
  "derive_more",
  "getrandom 0.2.15",
@@ -893,7 +893,7 @@ checksum = "5cc23269a4f8976d0a4d2e7109211a419fe30e8d88d677cd60b6bc79c5732e0a"
 dependencies = [
  "addr2line",
  "cc",
- "cfg-if 1.0.0",
+ "cfg-if",
  "libc",
  "miniz_oxide",
  "object 0.36.3",
@@ -943,8 +943,7 @@ dependencies = [
  "blake2s_const",
  "blake2s_simd",
  "byteorder",
- "cfg-if 1.0.0",
- "crossbeam 0.7.3",
+ "cfg-if",
  "futures",
  "hex",
  "lazy_static",
@@ -1101,7 +1100,7 @@ dependencies = [
  "arrayref",
  "arrayvec 0.7.4",
  "cc",
- "cfg-if 1.0.0",
+ "cfg-if",
  "constant_time_eq 0.3.0",
  "rayon-core",
 ]
@@ -1278,12 +1277,6 @@ dependencies = [
 
 [[package]]
 name = "cfg-if"
-version = "0.1.10"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4785bdd1c96b2a846b2bd7cc02e86b6b3dbf14e7e53446c4f54c92a361040822"
-
-[[package]]
-name = "cfg-if"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
@@ -1449,7 +1442,7 @@ version = "1.12.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "94fb8a24a26d37e1ffd45343323dc9fe6654ceea44c12f2fcb3d7ac29e610bc6"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if",
  "cpufeatures",
  "hex",
  "proptest",
@@ -1511,7 +1504,7 @@ version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7e8227005286ec39567949b33df9896bcadfa6051bccca2488129f108ca23119"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if",
 ]
 
 [[package]]
@@ -1544,7 +1537,7 @@ version = "1.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a97769d94ddab943e4510d138150169a2758b5ef3eb191a9ee688de3e23ef7b3"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if",
 ]
 
 [[package]]
@@ -1585,39 +1578,15 @@ dependencies = [
 
 [[package]]
 name = "crossbeam"
-version = "0.7.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "69323bff1fb41c635347b8ead484a5ca6c3f11914d784170b158d8449ab07f8e"
-dependencies = [
- "cfg-if 0.1.10",
- "crossbeam-channel 0.4.4",
- "crossbeam-deque 0.7.4",
- "crossbeam-epoch 0.8.2",
- "crossbeam-queue 0.2.3",
- "crossbeam-utils 0.7.2",
-]
-
-[[package]]
-name = "crossbeam"
 version = "0.8.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1137cd7e7fc0fb5d3c5a8678be38ec56e819125d8d7907411fe24ccb943faca8"
 dependencies = [
- "crossbeam-channel 0.5.13",
- "crossbeam-deque 0.8.5",
- "crossbeam-epoch 0.9.18",
- "crossbeam-queue 0.3.11",
- "crossbeam-utils 0.8.20",
-]
-
-[[package]]
-name = "crossbeam-channel"
-version = "0.4.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b153fe7cbef478c567df0f972e02e6d736db11affe43dfc9c56a9374d1adfb87"
-dependencies = [
- "crossbeam-utils 0.7.2",
- "maybe-uninit",
+ "crossbeam-channel",
+ "crossbeam-deque",
+ "crossbeam-epoch",
+ "crossbeam-queue",
+ "crossbeam-utils",
 ]
 
 [[package]]
@@ -1626,18 +1595,7 @@ version = "0.5.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "33480d6946193aa8033910124896ca395333cae7e2d1113d1fef6c3272217df2"
 dependencies = [
- "crossbeam-utils 0.8.20",
-]
-
-[[package]]
-name = "crossbeam-deque"
-version = "0.7.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c20ff29ded3204c5106278a81a38f4b482636ed4fa1e6cfbeef193291beb29ed"
-dependencies = [
- "crossbeam-epoch 0.8.2",
- "crossbeam-utils 0.7.2",
- "maybe-uninit",
+ "crossbeam-utils",
 ]
 
 [[package]]
@@ -1646,23 +1604,8 @@ version = "0.8.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "613f8cc01fe9cf1a3eb3d7f488fd2fa8388403e97039e2f73692932e291a770d"
 dependencies = [
- "crossbeam-epoch 0.9.18",
- "crossbeam-utils 0.8.20",
-]
-
-[[package]]
-name = "crossbeam-epoch"
-version = "0.8.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "058ed274caafc1f60c4997b5fc07bf7dc7cca454af7c6e81edffe5f33f70dace"
-dependencies = [
- "autocfg",
- "cfg-if 0.1.10",
- "crossbeam-utils 0.7.2",
- "lazy_static",
- "maybe-uninit",
- "memoffset",
- "scopeguard",
+ "crossbeam-epoch",
+ "crossbeam-utils",
 ]
 
 [[package]]
@@ -1671,18 +1614,7 @@ version = "0.9.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5b82ac4a3c2ca9c3460964f020e1402edd5753411d7737aa39c3714ad1b5420e"
 dependencies = [
- "crossbeam-utils 0.8.20",
-]
-
-[[package]]
-name = "crossbeam-queue"
-version = "0.2.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "774ba60a54c213d409d5353bda12d49cd68d14e45036a285234c8d6f91f92570"
-dependencies = [
- "cfg-if 0.1.10",
- "crossbeam-utils 0.7.2",
- "maybe-uninit",
+ "crossbeam-utils",
 ]
 
 [[package]]
@@ -1691,18 +1623,7 @@ version = "0.3.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "df0346b5d5e76ac2fe4e327c5fd1118d6be7c51dfb18f9b7922923f287471e35"
 dependencies = [
- "crossbeam-utils 0.8.20",
-]
-
-[[package]]
-name = "crossbeam-utils"
-version = "0.7.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c3c7c73a2d1e9fc0886a08b93e98eb643461230d5f1925e4036204d5f2e261a8"
-dependencies = [
- "autocfg",
- "cfg-if 0.1.10",
- "lazy_static",
+ "crossbeam-utils",
 ]
 
 [[package]]
@@ -1796,7 +1717,7 @@ version = "4.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "97fb8b7c4503de7d6ae7b42ab72a5a59857b4c937ec27a3d4539dba95b5ab2be"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if",
  "cpufeatures",
  "curve25519-dalek-derive",
  "fiat-crypto",
@@ -1916,8 +1837,8 @@ version = "6.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "804c8821570c3f8b70230c2ba75ffa5c0f9a4189b9a432b6656c536712acae28"
 dependencies = [
- "cfg-if 1.0.0",
- "crossbeam-utils 0.8.20",
+ "cfg-if",
+ "crossbeam-utils",
  "hashbrown 0.14.5",
  "lock_api",
  "once_cell",
@@ -2061,7 +1982,7 @@ version = "2.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b98cf8ebf19c3d1b223e151f99a4f9f0690dca41414773390fc824184ac833e1"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if",
  "dirs-sys-next",
 ]
 
@@ -2247,7 +2168,7 @@ version = "0.8.34"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b45de904aa0b010bce2ab45264d0631681847fa7b6f2eaa7dab7619943bc4f59"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if",
 ]
 
 [[package]]
@@ -2280,6 +2201,19 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4f2c92ceda6ceec50f43169f9ee8424fe2db276791afde7b2cd8bc084cb376ab"
 dependencies = [
  "log",
+]
+
+[[package]]
+name = "env_logger"
+version = "0.10.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4cd405aab171cb85d6735e5c8d9db038c17d3ca007a4d2c25f337935c3d90580"
+dependencies = [
+ "humantime",
+ "is-terminal",
+ "log",
+ "regex",
+ "termcolor",
 ]
 
 [[package]]
@@ -2400,7 +2334,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e9f54704be45ed286151c5e11531316eaef5b8f5af7d597b806fdb8af108d84a"
 dependencies = [
  "addchain",
- "cfg-if 1.0.0",
+ "cfg-if",
  "num-bigint 0.3.3",
  "num-integer",
  "num-traits",
@@ -2614,7 +2548,6 @@ dependencies = [
  "futures-core",
  "futures-task",
  "futures-util",
- "num_cpus",
 ]
 
 [[package]]
@@ -2706,7 +2639,7 @@ version = "0.1.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8fc3cb4d91f53b50155bdcfd23f6a4c39ae1969c2ae85982b135750cccaf5fce"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if",
  "libc",
  "wasi 0.9.0+wasi-snapshot-preview1",
 ]
@@ -2717,7 +2650,7 @@ version = "0.2.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c4567c8db10ae91089c99af84c68c38da3ec2f087c3f82960bcdbf3656b6f4d7"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if",
  "libc",
  "wasi 0.11.0+wasi-snapshot-preview1",
 ]
@@ -2855,7 +2788,7 @@ version = "2.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6dd08c532ae367adf81c312a4580bc67f1d0fe8bc9c460520283f4c0ff277888"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if",
  "crunchy",
 ]
 
@@ -3039,6 +2972,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "df3b46402a9d5adb4c86a0cf463f42e19994e3ee891101b1841f30a545cb49a9"
 
 [[package]]
+name = "humantime"
+version = "2.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9a3a5bfb195931eeb336b2a7b4d761daec841b97f947d34394601737a7bba5e4"
+
+[[package]]
 name = "hyper"
 version = "0.14.30"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3215,7 +3154,7 @@ version = "0.3.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d1fcc7f316b2c079dde77564a1360639c1a956a23fa96122732e416cb10717bb"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if",
  "num-traits",
  "rand 0.8.5",
  "serde",
@@ -3307,10 +3246,10 @@ checksum = "232929e1d75fe899576a3d5c7416ad0d88dbfbb3c3d6aa00873a7408a50ddb88"
 dependencies = [
  "ahash",
  "clap",
- "crossbeam-channel 0.5.13",
- "crossbeam-utils 0.8.20",
+ "crossbeam-channel",
+ "crossbeam-utils",
  "dashmap",
- "env_logger",
+ "env_logger 0.11.5",
  "indexmap 2.3.0",
  "is-terminal",
  "itoa",
@@ -3328,7 +3267,7 @@ version = "0.1.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e0242819d153cba4b4b05a5a8f2a7e9bbf97b6055b2a002b395c96b5ff3c0222"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if",
 ]
 
 [[package]]
@@ -3549,7 +3488,7 @@ version = "0.13.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "956ff9b67e26e1a6a866cb758f12c6f8746208489e3e4a4b5580802f2f0a587b"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if",
  "ecdsa",
  "elliptic-curve",
  "once_cell",
@@ -3669,7 +3608,7 @@ version = "0.8.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4979f22fdb869068da03c9f7528f8297c6fd2606bc3a4affe42e6a823fdb8da4"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if",
  "windows-targets 0.52.6",
 ]
 
@@ -3784,12 +3723,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "maybe-uninit"
-version = "2.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "60302e4db3a61da70c0cb7991976248362f30319e88850c487b9b95bbf059e00"
-
-[[package]]
 name = "memchr"
 version = "2.7.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3802,15 +3735,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fe751422e4a8caa417e13c3ea66452215d7d63e19e604f4980461212f3ae1322"
 dependencies = [
  "libc",
-]
-
-[[package]]
-name = "memoffset"
-version = "0.5.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "043175f069eda7b85febe4a74abbaeff828d9f8b448515d3151a14a3542811aa"
-dependencies = [
- "autocfg",
 ]
 
 [[package]]
@@ -3944,7 +3868,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ab2156c4fce2f8df6c499cc1c763e4394b7482525bf2a9701c9d79d215f519e4"
 dependencies = [
  "bitflags 2.6.0",
- "cfg-if 1.0.0",
+ "cfg-if",
  "cfg_aliases",
  "libc",
 ]
@@ -4273,7 +4197,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9529f4786b70a3e8c61e11179af17ab6188ad8d0ded78c5529441ed39d4bd9c1"
 dependencies = [
  "bitflags 2.6.0",
- "cfg-if 1.0.0",
+ "cfg-if",
  "foreign-types",
  "libc",
  "once_cell",
@@ -4325,7 +4249,7 @@ checksum = "b15813163c1d831bf4a13c3610c05c0d03b39feb07f7e09fa234dac9b15aaf39"
 [[package]]
 name = "p3-air"
 version = "0.1.0"
-source = "git+https://github.com/powdr-labs/Plonky3.git?branch=uni-stark-with-fixed#b4ef43aa35a739d4afd94f3d8093183ae63b3425"
+source = "git+https://github.com/plonky3/Plonky3.git#aaa9b07690a6dc847a800553ada490c53600981e"
 dependencies = [
  "p3-field 0.1.0",
  "p3-matrix 0.1.0",
@@ -4339,6 +4263,20 @@ checksum = "45e909ef66fa5d77ff0fd3cb5af4b33b27fa6fb68d02b9b1e70edbc29383e565"
 dependencies = [
  "p3-field 0.1.3-succinct",
  "p3-matrix 0.1.3-succinct",
+]
+
+[[package]]
+name = "p3-baby-bear"
+version = "0.1.0"
+source = "git+https://github.com/plonky3/Plonky3.git#aaa9b07690a6dc847a800553ada490c53600981e"
+dependencies = [
+ "p3-field 0.1.0",
+ "p3-mds 0.1.0",
+ "p3-monty-31",
+ "p3-poseidon2 0.1.0",
+ "p3-symmetric 0.1.0",
+ "rand 0.8.5",
+ "serde",
 ]
 
 [[package]]
@@ -4384,7 +4322,7 @@ dependencies = [
 [[package]]
 name = "p3-challenger"
 version = "0.1.0"
-source = "git+https://github.com/powdr-labs/Plonky3.git?branch=uni-stark-with-fixed#b4ef43aa35a739d4afd94f3d8093183ae63b3425"
+source = "git+https://github.com/plonky3/Plonky3.git#aaa9b07690a6dc847a800553ada490c53600981e"
 dependencies = [
  "p3-field 0.1.0",
  "p3-maybe-rayon 0.1.0",
@@ -4407,9 +4345,27 @@ dependencies = [
 ]
 
 [[package]]
+name = "p3-circle"
+version = "0.1.0"
+source = "git+https://github.com/plonky3/Plonky3.git#aaa9b07690a6dc847a800553ada490c53600981e"
+dependencies = [
+ "itertools 0.13.0",
+ "p3-challenger 0.1.0",
+ "p3-commit 0.1.0",
+ "p3-dft 0.1.0",
+ "p3-field 0.1.0",
+ "p3-fri 0.1.0",
+ "p3-matrix 0.1.0",
+ "p3-maybe-rayon 0.1.0",
+ "p3-util 0.1.0",
+ "serde",
+ "tracing",
+]
+
+[[package]]
 name = "p3-commit"
 version = "0.1.0"
-source = "git+https://github.com/powdr-labs/Plonky3.git?branch=uni-stark-with-fixed#b4ef43aa35a739d4afd94f3d8093183ae63b3425"
+source = "git+https://github.com/plonky3/Plonky3.git#aaa9b07690a6dc847a800553ada490c53600981e"
 dependencies = [
  "itertools 0.13.0",
  "p3-challenger 0.1.0",
@@ -4437,8 +4393,9 @@ dependencies = [
 [[package]]
 name = "p3-dft"
 version = "0.1.0"
-source = "git+https://github.com/powdr-labs/Plonky3.git?branch=uni-stark-with-fixed#b4ef43aa35a739d4afd94f3d8093183ae63b3425"
+source = "git+https://github.com/plonky3/Plonky3.git#aaa9b07690a6dc847a800553ada490c53600981e"
 dependencies = [
+ "itertools 0.13.0",
  "p3-field 0.1.0",
  "p3-matrix 0.1.0",
  "p3-maybe-rayon 0.1.0",
@@ -4462,16 +4419,18 @@ dependencies = [
 [[package]]
 name = "p3-field"
 version = "0.1.0"
-source = "git+https://github.com/powdr-labs/Plonky3.git?branch=uni-stark-with-fixed#b4ef43aa35a739d4afd94f3d8093183ae63b3425"
+source = "git+https://github.com/plonky3/Plonky3.git#aaa9b07690a6dc847a800553ada490c53600981e"
 dependencies = [
  "itertools 0.13.0",
  "num-bigint 0.4.6",
  "num-integer",
  "num-traits",
  "nums",
+ "p3-maybe-rayon 0.1.0",
  "p3-util 0.1.0",
  "rand 0.8.5",
  "serde",
+ "tracing",
 ]
 
 [[package]]
@@ -4491,7 +4450,7 @@ dependencies = [
 [[package]]
 name = "p3-fri"
 version = "0.1.0"
-source = "git+https://github.com/powdr-labs/Plonky3.git?branch=uni-stark-with-fixed#b4ef43aa35a739d4afd94f3d8093183ae63b3425"
+source = "git+https://github.com/plonky3/Plonky3.git#aaa9b07690a6dc847a800553ada490c53600981e"
 dependencies = [
  "itertools 0.13.0",
  "p3-challenger 0.1.0",
@@ -4528,7 +4487,7 @@ dependencies = [
 [[package]]
 name = "p3-goldilocks"
 version = "0.1.0"
-source = "git+https://github.com/powdr-labs/Plonky3.git?branch=uni-stark-with-fixed#b4ef43aa35a739d4afd94f3d8093183ae63b3425"
+source = "git+https://github.com/plonky3/Plonky3.git#aaa9b07690a6dc847a800553ada490c53600981e"
 dependencies = [
  "num-bigint 0.4.6",
  "p3-dft 0.1.0",
@@ -4544,7 +4503,7 @@ dependencies = [
 [[package]]
 name = "p3-interpolation"
 version = "0.1.0"
-source = "git+https://github.com/powdr-labs/Plonky3.git?branch=uni-stark-with-fixed#b4ef43aa35a739d4afd94f3d8093183ae63b3425"
+source = "git+https://github.com/plonky3/Plonky3.git#aaa9b07690a6dc847a800553ada490c53600981e"
 dependencies = [
  "p3-field 0.1.0",
  "p3-matrix 0.1.0",
@@ -4591,7 +4550,7 @@ dependencies = [
 [[package]]
 name = "p3-matrix"
 version = "0.1.0"
-source = "git+https://github.com/powdr-labs/Plonky3.git?branch=uni-stark-with-fixed#b4ef43aa35a739d4afd94f3d8093183ae63b3425"
+source = "git+https://github.com/plonky3/Plonky3.git#aaa9b07690a6dc847a800553ada490c53600981e"
 dependencies = [
  "itertools 0.13.0",
  "p3-field 0.1.0",
@@ -4621,7 +4580,7 @@ dependencies = [
 [[package]]
 name = "p3-maybe-rayon"
 version = "0.1.0"
-source = "git+https://github.com/powdr-labs/Plonky3.git?branch=uni-stark-with-fixed#b4ef43aa35a739d4afd94f3d8093183ae63b3425"
+source = "git+https://github.com/plonky3/Plonky3.git#aaa9b07690a6dc847a800553ada490c53600981e"
 dependencies = [
  "rayon",
 ]
@@ -4638,9 +4597,9 @@ dependencies = [
 [[package]]
 name = "p3-mds"
 version = "0.1.0"
-source = "git+https://github.com/powdr-labs/Plonky3.git?branch=uni-stark-with-fixed#b4ef43aa35a739d4afd94f3d8093183ae63b3425"
+source = "git+https://github.com/plonky3/Plonky3.git#aaa9b07690a6dc847a800553ada490c53600981e"
 dependencies = [
- "itertools 0.12.1",
+ "itertools 0.13.0",
  "p3-dft 0.1.0",
  "p3-field 0.1.0",
  "p3-matrix 0.1.0",
@@ -4667,7 +4626,7 @@ dependencies = [
 [[package]]
 name = "p3-merkle-tree"
 version = "0.1.0"
-source = "git+https://github.com/powdr-labs/Plonky3.git?branch=uni-stark-with-fixed#b4ef43aa35a739d4afd94f3d8093183ae63b3425"
+source = "git+https://github.com/plonky3/Plonky3.git#aaa9b07690a6dc847a800553ada490c53600981e"
 dependencies = [
  "itertools 0.13.0",
  "p3-commit 0.1.0",
@@ -4698,9 +4657,49 @@ dependencies = [
 ]
 
 [[package]]
+name = "p3-mersenne-31"
+version = "0.1.0"
+source = "git+https://github.com/plonky3/Plonky3.git#aaa9b07690a6dc847a800553ada490c53600981e"
+dependencies = [
+ "itertools 0.13.0",
+ "num-bigint 0.4.6",
+ "p3-dft 0.1.0",
+ "p3-field 0.1.0",
+ "p3-matrix 0.1.0",
+ "p3-maybe-rayon 0.1.0",
+ "p3-mds 0.1.0",
+ "p3-poseidon2 0.1.0",
+ "p3-symmetric 0.1.0",
+ "p3-util 0.1.0",
+ "rand 0.8.5",
+ "serde",
+]
+
+[[package]]
+name = "p3-monty-31"
+version = "0.1.0"
+source = "git+https://github.com/plonky3/Plonky3.git#aaa9b07690a6dc847a800553ada490c53600981e"
+dependencies = [
+ "itertools 0.13.0",
+ "num-bigint 0.4.6",
+ "p3-dft 0.1.0",
+ "p3-field 0.1.0",
+ "p3-matrix 0.1.0",
+ "p3-maybe-rayon 0.1.0",
+ "p3-mds 0.1.0",
+ "p3-poseidon2 0.1.0",
+ "p3-symmetric 0.1.0",
+ "p3-util 0.1.0",
+ "rand 0.8.5",
+ "serde",
+ "tracing",
+ "transpose",
+]
+
+[[package]]
 name = "p3-poseidon"
 version = "0.1.0"
-source = "git+https://github.com/powdr-labs/Plonky3.git?branch=uni-stark-with-fixed#b4ef43aa35a739d4afd94f3d8093183ae63b3425"
+source = "git+https://github.com/plonky3/Plonky3.git#aaa9b07690a6dc847a800553ada490c53600981e"
 dependencies = [
  "p3-field 0.1.0",
  "p3-mds 0.1.0",
@@ -4711,7 +4710,7 @@ dependencies = [
 [[package]]
 name = "p3-poseidon2"
 version = "0.1.0"
-source = "git+https://github.com/powdr-labs/Plonky3.git?branch=uni-stark-with-fixed#b4ef43aa35a739d4afd94f3d8093183ae63b3425"
+source = "git+https://github.com/plonky3/Plonky3.git#aaa9b07690a6dc847a800553ada490c53600981e"
 dependencies = [
  "gcd",
  "p3-field 0.1.0",
@@ -4736,7 +4735,7 @@ dependencies = [
 [[package]]
 name = "p3-symmetric"
 version = "0.1.0"
-source = "git+https://github.com/powdr-labs/Plonky3.git?branch=uni-stark-with-fixed#b4ef43aa35a739d4afd94f3d8093183ae63b3425"
+source = "git+https://github.com/plonky3/Plonky3.git#aaa9b07690a6dc847a800553ada490c53600981e"
 dependencies = [
  "itertools 0.13.0",
  "p3-field 0.1.0",
@@ -4757,7 +4756,7 @@ dependencies = [
 [[package]]
 name = "p3-uni-stark"
 version = "0.1.0"
-source = "git+https://github.com/powdr-labs/Plonky3.git?branch=uni-stark-with-fixed#b4ef43aa35a739d4afd94f3d8093183ae63b3425"
+source = "git+https://github.com/plonky3/Plonky3.git#aaa9b07690a6dc847a800553ada490c53600981e"
 dependencies = [
  "itertools 0.13.0",
  "p3-air 0.1.0",
@@ -4797,7 +4796,7 @@ dependencies = [
 [[package]]
 name = "p3-util"
 version = "0.1.0"
-source = "git+https://github.com/powdr-labs/Plonky3.git?branch=uni-stark-with-fixed#b4ef43aa35a739d4afd94f3d8093183ae63b3425"
+source = "git+https://github.com/plonky3/Plonky3.git#aaa9b07690a6dc847a800553ada490c53600981e"
 dependencies = [
  "serde",
 ]
@@ -4827,7 +4826,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1e753515675eaaa98071d814bea0148ae8c9d7995fa0531bf222e7857e3f1759"
 dependencies = [
  "byteorder",
- "cfg-if 1.0.0",
+ "cfg-if",
  "ff_ce",
  "rand 0.4.6",
 ]
@@ -4874,7 +4873,7 @@ version = "0.9.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1e401f977ab385c9e4e3ab30627d6f26d00e2c73eef317493c4ec6d468726cf8"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if",
  "libc",
  "redox_syscall",
  "smallvec",
@@ -5086,7 +5085,7 @@ dependencies = [
 [[package]]
 name = "powdr-airgen"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4abae5d69d012857e40519cac9bbee7701a5c80"
+source = "git+https://github.com/powdr-labs/powdr.git#83cba137f6358365d93855314f93880873f3dca0"
 dependencies = [
  "itertools 0.13.0",
  "log",
@@ -5098,7 +5097,7 @@ dependencies = [
 [[package]]
 name = "powdr-analysis"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4abae5d69d012857e40519cac9bbee7701a5c80"
+source = "git+https://github.com/powdr-labs/powdr.git#83cba137f6358365d93855314f93880873f3dca0"
 dependencies = [
  "itertools 0.13.0",
  "lazy_static",
@@ -5112,7 +5111,7 @@ dependencies = [
 [[package]]
 name = "powdr-asm-to-pil"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4abae5d69d012857e40519cac9bbee7701a5c80"
+source = "git+https://github.com/powdr-labs/powdr.git#83cba137f6358365d93855314f93880873f3dca0"
 dependencies = [
  "lazy_static",
  "log",
@@ -5124,17 +5123,9 @@ dependencies = [
 ]
 
 [[package]]
-name = "powdr-asm-utils"
-version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4abae5d69d012857e40519cac9bbee7701a5c80"
-dependencies = [
- "itertools 0.13.0",
-]
-
-[[package]]
 name = "powdr-ast"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4abae5d69d012857e40519cac9bbee7701a5c80"
+source = "git+https://github.com/powdr-labs/powdr.git#83cba137f6358365d93855314f93880873f3dca0"
 dependencies = [
  "auto_enums",
  "derive_more",
@@ -5150,10 +5141,9 @@ dependencies = [
 [[package]]
 name = "powdr-backend"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4abae5d69d012857e40519cac9bbee7701a5c80"
+source = "git+https://github.com/powdr-labs/powdr.git#83cba137f6358365d93855314f93880873f3dca0"
 dependencies = [
  "bincode",
- "fields",
  "hex",
  "itertools 0.13.0",
  "log",
@@ -5179,15 +5169,17 @@ dependencies = [
 [[package]]
 name = "powdr-executor"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4abae5d69d012857e40519cac9bbee7701a5c80"
+source = "git+https://github.com/powdr-labs/powdr.git#83cba137f6358365d93855314f93880873f3dca0"
 dependencies = [
  "bit-vec",
+ "derive_more",
  "indicatif",
  "itertools 0.13.0",
  "lazy_static",
  "log",
  "num-traits",
  "powdr-ast",
+ "powdr-jit-compiler",
  "powdr-number",
  "powdr-parser-util",
  "powdr-pil-analyzer",
@@ -5198,7 +5190,7 @@ dependencies = [
 [[package]]
 name = "powdr-importer"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4abae5d69d012857e40519cac9bbee7701a5c80"
+source = "git+https://github.com/powdr-labs/powdr.git#83cba137f6358365d93855314f93880873f3dca0"
 dependencies = [
  "powdr-ast",
  "powdr-number",
@@ -5208,11 +5200,33 @@ dependencies = [
 ]
 
 [[package]]
-name = "powdr-linker"
+name = "powdr-isa-utils"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4abae5d69d012857e40519cac9bbee7701a5c80"
+source = "git+https://github.com/powdr-labs/powdr.git#83cba137f6358365d93855314f93880873f3dca0"
+
+[[package]]
+name = "powdr-jit-compiler"
+version = "0.1.0-alpha.2"
+source = "git+https://github.com/powdr-labs/powdr.git#83cba137f6358365d93855314f93880873f3dca0"
 dependencies = [
  "itertools 0.13.0",
+ "lazy_static",
+ "libloading",
+ "log",
+ "mktemp",
+ "powdr-ast",
+ "powdr-number",
+ "powdr-parser",
+]
+
+[[package]]
+name = "powdr-linker"
+version = "0.1.0-alpha.2"
+source = "git+https://github.com/powdr-labs/powdr.git#83cba137f6358365d93855314f93880873f3dca0"
+dependencies = [
+ "itertools 0.13.0",
+ "lazy_static",
+ "log",
  "powdr-analysis",
  "powdr-ast",
  "powdr-number",
@@ -5223,7 +5237,7 @@ dependencies = [
 [[package]]
 name = "powdr-number"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4abae5d69d012857e40519cac9bbee7701a5c80"
+source = "git+https://github.com/powdr-labs/powdr.git#83cba137f6358365d93855314f93880873f3dca0"
 dependencies = [
  "ark-bn254",
  "ark-ff 0.4.2",
@@ -5233,6 +5247,9 @@ dependencies = [
  "ibig",
  "num-bigint 0.4.6",
  "num-traits",
+ "p3-baby-bear 0.1.0",
+ "p3-field 0.1.0",
+ "p3-mersenne-31",
  "schemars",
  "serde",
  "serde_cbor",
@@ -5242,7 +5259,7 @@ dependencies = [
 [[package]]
 name = "powdr-parser"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4abae5d69d012857e40519cac9bbee7701a5c80"
+source = "git+https://github.com/powdr-labs/powdr.git#83cba137f6358365d93855314f93880873f3dca0"
 dependencies = [
  "derive_more",
  "lalrpop",
@@ -5257,7 +5274,7 @@ dependencies = [
 [[package]]
 name = "powdr-parser-util"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4abae5d69d012857e40519cac9bbee7701a5c80"
+source = "git+https://github.com/powdr-labs/powdr.git#83cba137f6358365d93855314f93880873f3dca0"
 dependencies = [
  "codespan-reporting",
  "lalrpop-util",
@@ -5268,7 +5285,7 @@ dependencies = [
 [[package]]
 name = "powdr-pil-analyzer"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4abae5d69d012857e40519cac9bbee7701a5c80"
+source = "git+https://github.com/powdr-labs/powdr.git#83cba137f6358365d93855314f93880873f3dca0"
 dependencies = [
  "itertools 0.13.0",
  "lazy_static",
@@ -5282,7 +5299,7 @@ dependencies = [
 [[package]]
 name = "powdr-pilopt"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4abae5d69d012857e40519cac9bbee7701a5c80"
+source = "git+https://github.com/powdr-labs/powdr.git#83cba137f6358365d93855314f93880873f3dca0"
 dependencies = [
  "log",
  "powdr-ast",
@@ -5293,7 +5310,7 @@ dependencies = [
 [[package]]
 name = "powdr-pipeline"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4abae5d69d012857e40519cac9bbee7701a5c80"
+source = "git+https://github.com/powdr-labs/powdr.git#83cba137f6358365d93855314f93880873f3dca0"
 dependencies = [
  "itertools 0.13.0",
  "log",
@@ -5302,7 +5319,6 @@ dependencies = [
  "powdr-airgen",
  "powdr-analysis",
  "powdr-asm-to-pil",
- "powdr-asm-utils",
  "powdr-ast",
  "powdr-backend",
  "powdr-executor",
@@ -5322,12 +5338,15 @@ dependencies = [
 [[package]]
 name = "powdr-plonky3"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4abae5d69d012857e40519cac9bbee7701a5c80"
+source = "git+https://github.com/powdr-labs/powdr.git#83cba137f6358365d93855314f93880873f3dca0"
 dependencies = [
  "bincode",
+ "itertools 0.13.0",
  "lazy_static",
  "p3-air 0.1.0",
+ "p3-baby-bear 0.1.0",
  "p3-challenger 0.1.0",
+ "p3-circle",
  "p3-commit 0.1.0",
  "p3-dft 0.1.0",
  "p3-field 0.1.0",
@@ -5337,6 +5356,7 @@ dependencies = [
  "p3-maybe-rayon 0.1.0",
  "p3-mds 0.1.0",
  "p3-merkle-tree 0.1.0",
+ "p3-mersenne-31",
  "p3-poseidon",
  "p3-poseidon2 0.1.0",
  "p3-symmetric 0.1.0",
@@ -5348,25 +5368,25 @@ dependencies = [
  "powdr-number",
  "rand 0.8.5",
  "rand_chacha 0.3.1",
+ "serde",
+ "tracing",
 ]
 
 [[package]]
 name = "powdr-riscv"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4abae5d69d012857e40519cac9bbee7701a5c80"
+source = "git+https://github.com/powdr-labs/powdr.git#83cba137f6358365d93855314f93880873f3dca0"
 dependencies = [
  "gimli 0.31.0",
  "goblin",
  "itertools 0.13.0",
  "lalrpop",
- "lalrpop-util",
  "lazy_static",
  "log",
- "mktemp",
- "num-traits",
- "powdr-asm-utils",
  "powdr-ast",
  "powdr-executor",
+ "powdr-isa-utils",
+ "powdr-linker",
  "powdr-number",
  "powdr-parser",
  "powdr-parser-util",
@@ -5374,7 +5394,6 @@ dependencies = [
  "powdr-riscv-executor",
  "powdr-riscv-syscalls",
  "raki",
- "regex-syntax 0.6.29",
  "serde_json",
  "static_assertions",
  "thiserror",
@@ -5383,7 +5402,7 @@ dependencies = [
 [[package]]
 name = "powdr-riscv-executor"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4abae5d69d012857e40519cac9bbee7701a5c80"
+source = "git+https://github.com/powdr-labs/powdr.git#83cba137f6358365d93855314f93880873f3dca0"
 dependencies = [
  "inferno",
  "itertools 0.13.0",
@@ -5404,12 +5423,12 @@ dependencies = [
 [[package]]
 name = "powdr-riscv-syscalls"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4abae5d69d012857e40519cac9bbee7701a5c80"
+source = "git+https://github.com/powdr-labs/powdr.git#83cba137f6358365d93855314f93880873f3dca0"
 
 [[package]]
 name = "powdr-schemas"
 version = "0.1.0-alpha.2"
-source = "git+https://github.com/powdr-labs/powdr.git?branch=tmp-submachine-degrees#b4abae5d69d012857e40519cac9bbee7701a5c80"
+source = "git+https://github.com/powdr-labs/powdr.git#83cba137f6358365d93855314f93880873f3dca0"
 dependencies = [
  "powdr-ast",
  "powdr-number",
@@ -5830,8 +5849,8 @@ version = "1.12.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1465873a3dfdaa8ae7cb14b4383657caab0b3e8a0aa9ae8e04b044854c8dfce2"
 dependencies = [
- "crossbeam-deque 0.8.5",
- "crossbeam-utils 0.8.20",
+ "crossbeam-deque",
+ "crossbeam-utils",
 ]
 
 [[package]]
@@ -6056,7 +6075,7 @@ dependencies = [
  "alloy-trie",
  "byteorder",
  "bytes",
- "cfg-if 1.0.0",
+ "cfg-if",
  "derive_more",
  "itertools 0.12.1",
  "k256",
@@ -6106,7 +6125,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "72a454c1c650b2b2e23f0c461af09e6c31e1d15e1cbebe905a701c46b8a50afc"
 dependencies = [
  "auto_impl",
- "cfg-if 1.0.0",
+ "cfg-if",
  "dyn-clone",
  "revm-interpreter",
  "revm-precompile 6.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -6120,7 +6139,7 @@ version = "8.0.0"
 source = "git+https://github.com/sp1-patches/revm-new?branch=john/update-for-v1#eb53e9f613f4c309851144260696791918b31383"
 dependencies = [
  "auto_impl",
- "cfg-if 1.0.0",
+ "cfg-if",
  "dyn-clone",
  "revm-interpreter",
  "revm-precompile 6.0.0 (git+https://github.com/sp1-patches/revm-new?branch=john/update-for-v1)",
@@ -6179,7 +6198,7 @@ dependencies = [
  "bitflags 2.6.0",
  "bitvec",
  "c-kzg",
- "cfg-if 1.0.0",
+ "cfg-if",
  "dyn-clone",
  "enumn",
  "hashbrown 0.14.5",
@@ -6213,7 +6232,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c17fa4cb658e3583423e915b9f3acc01cceaee1860e33d59ebae66adc3a2dc0d"
 dependencies = [
  "cc",
- "cfg-if 1.0.0",
+ "cfg-if",
  "getrandom 0.2.15",
  "libc",
  "spin",
@@ -6304,8 +6323,8 @@ checksum = "ce836e7c553e63cbd807d15925ba5dd641a80cdee7d123619eaa60bb555ab014"
 dependencies = [
  "anyhow",
  "bytemuck",
- "cfg-if 1.0.0",
- "crossbeam 0.8.4",
+ "cfg-if",
+ "crossbeam",
  "crypto-bigint",
  "cust",
  "derive-debug",
@@ -6392,7 +6411,7 @@ dependencies = [
  "anyhow",
  "blake2 0.10.6",
  "bytemuck",
- "cfg-if 1.0.0",
+ "cfg-if",
  "cust",
  "digest 0.10.7",
  "ff 0.13.0",
@@ -6425,7 +6444,7 @@ dependencies = [
  "bonsai-sdk",
  "bytemuck",
  "bytes",
- "cfg-if 1.0.0",
+ "cfg-if",
  "elf",
  "getrandom 0.2.15",
  "hex",
@@ -6721,7 +6740,7 @@ version = "2.11.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "eca070c12893629e2cc820a9761bedf6ce1dcddc9852984d1dc734b8bd9bd024"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if",
  "derive_more",
  "parity-scale-codec",
  "scale-info-derive",
@@ -7074,7 +7093,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4d58a1e1bf39749807d89cf2d98ac2dfa0ff1cb3faa38fbb64dd88ac8013d800"
 dependencies = [
  "block-buffer 0.9.0",
- "cfg-if 1.0.0",
+ "cfg-if",
  "cpufeatures",
  "digest 0.9.0",
  "opaque-debug 0.3.1",
@@ -7086,7 +7105,7 @@ version = "0.10.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "793db75ad2bcafc3ffa7c68b215fee268f537982cd901d132f89c6343f3a3dc8"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if",
  "cpufeatures",
  "digest 0.10.7",
 ]
@@ -7130,7 +7149,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "57d79b758b7cb2085612b11a235055e485605a5103faccdd633f35bd7aee69dd"
 dependencies = [
  "cc",
- "cfg-if 1.0.0",
+ "cfg-if",
 ]
 
 [[package]]
@@ -7228,10 +7247,11 @@ name = "sp1-benchmarks-eval"
 version = "0.1.0"
 dependencies = [
  "bincode",
- "cfg-if 1.0.0",
+ "cfg-if",
  "chrono",
  "clap",
  "csv",
+ "env_logger 0.10.2",
  "fibonacci-jolt",
  "jolt-sdk",
  "loop-jolt",
@@ -7261,7 +7281,7 @@ dependencies = [
  "bincode",
  "blake3",
  "bytemuck",
- "cfg-if 1.0.0",
+ "cfg-if",
  "curve25519-dalek",
  "elf",
  "elliptic-curve",
@@ -7276,7 +7296,7 @@ dependencies = [
  "num-bigint 0.4.6",
  "num_cpus",
  "p3-air 0.1.3-succinct",
- "p3-baby-bear",
+ "p3-baby-bear 0.1.3-succinct",
  "p3-blake3",
  "p3-challenger 0.1.3-succinct",
  "p3-commit 0.1.3-succinct",
@@ -7330,7 +7350,7 @@ source = "git+https://github.com/succinctlabs/sp1.git?rev=dd032eb23949828d244d1a
 dependencies = [
  "anyhow",
  "bincode",
- "cfg-if 1.0.0",
+ "cfg-if",
  "k256",
  "serde",
 ]
@@ -7342,7 +7362,7 @@ source = "git+https://github.com/succinctlabs/sp1?rev=v1.1.1#5f3b8d74beabe602966
 dependencies = [
  "itertools 0.13.0",
  "lazy_static",
- "p3-baby-bear",
+ "p3-baby-bear 0.1.3-succinct",
  "p3-field 0.1.3-succinct",
  "p3-poseidon2 0.1.3-succinct",
  "p3-symmetric 0.1.3-succinct",
@@ -7361,7 +7381,7 @@ dependencies = [
  "itertools 0.13.0",
  "num-bigint 0.4.6",
  "oneshot",
- "p3-baby-bear",
+ "p3-baby-bear 0.1.3-succinct",
  "p3-bn254-fr",
  "p3-challenger 0.1.3-succinct",
  "p3-commit 0.1.3-succinct",
@@ -7393,7 +7413,7 @@ dependencies = [
  "bincode",
  "itertools 0.13.0",
  "p3-air 0.1.3-succinct",
- "p3-baby-bear",
+ "p3-baby-bear 0.1.3-succinct",
  "p3-bn254-fr",
  "p3-commit 0.1.3-succinct",
  "p3-field 0.1.3-succinct",
@@ -7416,7 +7436,7 @@ dependencies = [
  "backtrace",
  "itertools 0.13.0",
  "p3-air 0.1.3-succinct",
- "p3-baby-bear",
+ "p3-baby-bear 0.1.3-succinct",
  "p3-bn254-fr",
  "p3-commit 0.1.3-succinct",
  "p3-field 0.1.3-succinct",
@@ -7445,7 +7465,7 @@ dependencies = [
  "itertools 0.13.0",
  "num_cpus",
  "p3-air 0.1.3-succinct",
- "p3-baby-bear",
+ "p3-baby-bear 0.1.3-succinct",
  "p3-bn254-fr",
  "p3-challenger 0.1.3-succinct",
  "p3-commit 0.1.3-succinct",
@@ -7487,11 +7507,11 @@ dependencies = [
  "bincode",
  "bindgen",
  "cc",
- "cfg-if 1.0.0",
+ "cfg-if",
  "hex",
  "log",
  "num-bigint 0.4.6",
- "p3-baby-bear",
+ "p3-baby-bear 0.1.3-succinct",
  "p3-field 0.1.3-succinct",
  "p3-symmetric 0.1.3-succinct",
  "rand 0.8.5",
@@ -7510,7 +7530,7 @@ source = "git+https://github.com/succinctlabs/sp1?rev=v1.1.1#5f3b8d74beabe602966
 dependencies = [
  "itertools 0.13.0",
  "p3-air 0.1.3-succinct",
- "p3-baby-bear",
+ "p3-baby-bear 0.1.3-succinct",
  "p3-challenger 0.1.3-succinct",
  "p3-commit 0.1.3-succinct",
  "p3-dft 0.1.3-succinct",
@@ -7535,7 +7555,7 @@ dependencies = [
 [[package]]
 name = "sp1-reth-primitives"
 version = "0.1.0"
-source = "git+https://github.com/succinctlabs/sp1-reth.git?branch=john/update-for-v1#40318ba452dfb7655af88e658469012f7863d15c"
+source = "git+https://github.com/succinctlabs/sp1-reth.git?rev=ba07e254d65a869fbd0501976c3832e4774915d6#ba07e254d65a869fbd0501976c3832e4774915d6"
 dependencies = [
  "alloy-primitives",
  "alloy-rlp",
@@ -7616,7 +7636,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c886bd4480155fd3ef527d45e9ac8dd7118a898a46530b7b94c3e21866259fce"
 dependencies = [
  "cc",
- "cfg-if 1.0.0",
+ "cfg-if",
  "libc",
  "psm",
  "winapi",
@@ -7864,7 +7884,7 @@ version = "3.12.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "04cbcdd0c794ebb0d4cf35e88edd2f7d2c4c3e9a5a6dab322839b321c6a87a64"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if",
  "fastrand",
  "once_cell",
  "rustix",
@@ -8004,7 +8024,7 @@ version = "1.1.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8b9ef9bad013ada3808854ceac7b46812a6465ba368859a37e2100283d2d719c"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if",
  "once_cell",
 ]
 
@@ -8397,7 +8417,7 @@ version = "1.6.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "97fee6b57c6a41524a810daee9286c02d7752c4253064d0b05472833a438f675"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if",
  "static_assertions",
 ]
 
@@ -8563,7 +8583,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2990d9ea5967266ea0ccf413a4aa5c42a93dbcfda9cb49a97de6931726b12566"
 dependencies = [
  "anyhow",
- "cfg-if 1.0.0",
+ "cfg-if",
  "git2",
  "rustversion",
  "time",
@@ -8621,7 +8641,7 @@ version = "0.2.92"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4be2531df63900aeb2bca0daaaddec08491ee64ceecbee5076636a3b026795a8"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if",
  "wasm-bindgen-macro",
 ]
 
@@ -8646,7 +8666,7 @@ version = "0.4.42"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "76bc14366121efc8dbb487ab05bcc9d346b3b5ec0eaa76e46594cabbe51762c0"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if",
  "js-sys",
  "wasm-bindgen",
  "web-sys",
@@ -8956,7 +8976,7 @@ version = "0.50.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "524e57b2c537c0f9b1e69f1965311ec12182b4122e45035b1508cd24d2adadb1"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if",
  "windows-sys 0.48.0",
 ]
 
@@ -8966,7 +8986,7 @@ version = "0.52.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a277a57398d4bfa075df44f501a17cfdf8542d224f0d36095a2adc7aee4ef0a5"
 dependencies = [
- "cfg-if 1.0.0",
+ "cfg-if",
  "windows-sys 0.48.0",
 ]
 
@@ -9040,7 +9060,7 @@ checksum = "40dd8c92efc296286ce1fbd16657c5dbefff44f1b4ca01cc5f517d8b7b3d3e2e"
 dependencies = [
  "arbitrary",
  "crc32fast",
- "crossbeam-utils 0.8.20",
+ "crossbeam-utils",
  "displaydoc",
  "flate2",
  "indexmap 2.3.0",
@@ -9061,7 +9081,7 @@ dependencies = [
  "blake2 0.10.6",
  "bls12_381",
  "byteorder",
- "cfg-if 1.0.0",
+ "cfg-if",
  "group 0.12.1",
  "group 0.13.0",
  "halo2",
