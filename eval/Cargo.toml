@@ -64,7 +64,8 @@ risc0 = ["risc0-zkvm"]
 cuda = ["dep:sp1-server", "risc0-zkvm/cuda"]
 powdr-estark = ["powdr-pipeline/estark-polygon", "powdr-riscv", "powdr-number"]
 powdr-plonky3 = ["powdr-pipeline/plonky3", "powdr-riscv", "powdr-number"]
-avx512 = ["starky/avx512"]
+avx512 = ["powdr-pipeline/simd"]
+
 
 # # jolt
 # pjolt-zkvm = [

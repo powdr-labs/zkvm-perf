@@ -202,7 +202,7 @@ impl PowdrEvaluator {
             } else if #[cfg(feature = "powdr-plonky3")] {
                 println!("using Plonky3 backend");
                 assert!(args.prover == ProverId::PowdrPlonky3);
-                let backend = powdr_pipeline::BackendType::Plonky3Composite;
+                let backend = powdr_pipeline::BackendType::Plonky3;
             } else {
                 unreachable!();
             }
@@ -267,16 +267,17 @@ fn compile_program<F: FieldElement>(
 
     let output_dir: PathBuf = OUTPUT_DIR.into();
     let force_overwrite = true;
-    let options = match F::known_field().unwrap() {
-        KnownField::BabyBearField | KnownField::Mersenne31Field => {
-            todo!()
-        }
-        KnownField::GoldilocksField | KnownField::Bn254Field => {
+    let known_field = F::known_field().unwrap();
+    let options = match known_field {
+        KnownField::GoldilocksField => {
             if with_continuations {
-                powdr_riscv::CompilerOptions::new_32().with_poseidon().with_continuations()
+                powdr_riscv::CompilerOptions::new_gl().with_poseidon().with_continuations()
             } else {
-                powdr_riscv::CompilerOptions::new_32()
+                powdr_riscv::CompilerOptions::new_gl()
             }
+        }
+        _ => {
+            todo!()
         }
     };
 
