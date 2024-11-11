@@ -284,7 +284,7 @@ fn compile_program<F: FieldElement>(
             let opt =
                 powdr_riscv::CompilerOptions::new_gl().with_max_degree_log(max_degree_log as u8);
             if with_continuations {
-                opt.with_poseidon2().with_continuations()
+                opt.with_continuations()
             } else {
                 opt
             }
