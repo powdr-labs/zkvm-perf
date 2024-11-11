@@ -5,7 +5,7 @@ name = "reth-risc0"
 edition = "2021"
 
 [dependencies]
-powdr-riscv-runtime = { git = "https://github.com/powdr-labs/powdr.git", tag = "v0.1.1", features = ["std"], optional = true }
+powdr-riscv-runtime = { git = "https://github.com/powdr-labs/powdr.git", rev = "e8221e25", features = ["std"], optional = true }
 sp1-reth-primitives = { git = "https://github.com/succinctlabs/sp1-reth.git", branch = "john/update-for-v1" }
 
 alloy-rlp = { version = "0.3", default-features = false }

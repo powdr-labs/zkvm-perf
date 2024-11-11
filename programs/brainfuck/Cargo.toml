@@ -8,7 +8,7 @@ edition = "2021"
 sp1-zkvm = { git = "https://github.com/succinctlabs/sp1", branch = "dev", optional = true }
 risc0-zkvm = { version = "1.0.5", default-features = false, features = ["std"], optional = true }
 serde = { version = "1.0.204", default-features = false, features = ["derive"] }
-powdr-riscv-runtime = { git = "https://github.com/powdr-labs/powdr.git", tag = "v0.1.1", features = ["std"], optional = true }
+powdr-riscv-runtime = { git = "https://github.com/powdr-labs/powdr.git", rev = "e8221e25", features = ["std"], optional = true }
 
 [features]
 default = []
