@@ -85,13 +85,13 @@ fn run_with_continuations<T: FieldElement>(
     let num_chunks = dry_run.bootloader_inputs.len();
     let trace_len = dry_run.trace_len as u64;
 
-    let generate_witness = |mut pipeline: Pipeline<T>| -> Result<(), Vec<String>> {
+    let generate_witness = |pipeline: &mut Pipeline<T>| -> Result<(), Vec<String>> {
         pipeline.compute_witness().unwrap();
         Ok(())
     };
     // this will save the witness for each chunk N in its own `chunk_N` directory
     println!("continuations witgen...");
-    powdr_riscv::continuations::rust_continuations(pipeline.clone(), generate_witness, dry_run)
+    powdr_riscv::continuations::rust_continuations(&mut pipeline, generate_witness, dry_run)
         .expect("error executing with continuations");
     let witgen_time = start.elapsed();
     println!("continuations witgen time: {witgen_time:?}");
@@ -106,7 +106,7 @@ fn run_with_continuations<T: FieldElement>(
     println!("proving chunks...");
     for chunk in 0..num_chunks {
         let witness_dir: PathBuf = format!("{OUTPUT_DIR}/chunk_{chunk}").into();
-        pipeline = pipeline.read_witness(&witness_dir).with_output(witness_dir, true);
+        pipeline = pipeline.read_witness(&witness_dir).unwrap().with_output(witness_dir, true);
         let (proof, chunk_duration) = time_operation(|| pipeline.compute_proof().unwrap().clone());
         println!("chunk {chunk} proof time: {chunk_duration:?}");
         let chunk_size = proof.len();
@@ -164,11 +164,11 @@ impl PowdrEvaluator {
         let (path, asm) = match &args.program {
             ProgramId::Tendermint => {
                 let path = format!("programs/{}-powdr", args.program.to_string());
-                compile_program::<GoldilocksField>(path, true).unwrap()
+                compile_program::<GoldilocksField>(path, args.shard_size, true).unwrap()
             }
             ProgramId::Reth => {
                 let path = format!("programs/{}-powdr", args.program.to_string());
-                compile_program::<GoldilocksField>(path, true).unwrap()
+                compile_program::<GoldilocksField>(path, args.shard_size, true).unwrap()
             }
             ProgramId::BrainfuckAsm => {
                 let path = format!("programs/brainfuck/brainfuck_vm.asm").into();
@@ -187,7 +187,7 @@ impl PowdrEvaluator {
             }
             program => {
                 let path = format!("programs/{}", program.to_string());
-                compile_program::<GoldilocksField>(path, !args.powdr_no_continuations).unwrap()
+                compile_program::<GoldilocksField>(path, args.shard_size, !args.powdr_no_continuations).unwrap()
             }
         };
 
@@ -261,19 +261,26 @@ impl PowdrEvaluator {
 
 fn compile_program<F: FieldElement>(
     crate_path: String,
+    shard_size: u64,
     with_continuations: bool,
 ) -> Option<(Option<PathBuf>, String)> {
     println!("compiling {} (continuations={with_continuations})...", crate_path.to_string());
+
+    // we shift it by 2 (i.e., multiply by 4) because, in powdr,
+    // there is a division by 4 to get the trace that fits inside a chunk (due to the
+    // expectation of a memory machine 4x larger than main)
+    let max_degree_log = shard_size + 2;
 
     let output_dir: PathBuf = OUTPUT_DIR.into();
     let force_overwrite = true;
     let known_field = F::known_field().unwrap();
     let options = match known_field {
         KnownField::GoldilocksField => {
+            let opt = powdr_riscv::CompilerOptions::new_gl().with_max_degree_log(max_degree_log as u8);
             if with_continuations {
-                powdr_riscv::CompilerOptions::new_gl().with_poseidon().with_continuations()
+                opt.with_poseidon().with_continuations()
             } else {
-                powdr_riscv::CompilerOptions::new_gl()
+                opt
             }
         }
         _ => {
