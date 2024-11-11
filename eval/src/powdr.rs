@@ -187,7 +187,12 @@ impl PowdrEvaluator {
             }
             program => {
                 let path = format!("programs/{}", program.to_string());
-                compile_program::<GoldilocksField>(path, args.shard_size, !args.powdr_no_continuations).unwrap()
+                compile_program::<GoldilocksField>(
+                    path,
+                    args.shard_size,
+                    !args.powdr_no_continuations,
+                )
+                .unwrap()
             }
         };
 
@@ -276,9 +281,10 @@ fn compile_program<F: FieldElement>(
     let known_field = F::known_field().unwrap();
     let options = match known_field {
         KnownField::GoldilocksField => {
-            let opt = powdr_riscv::CompilerOptions::new_gl().with_max_degree_log(max_degree_log as u8);
+            let opt =
+                powdr_riscv::CompilerOptions::new_gl().with_max_degree_log(max_degree_log as u8);
             if with_continuations {
-                opt.with_poseidon().with_continuations()
+                opt.with_poseidon2().with_continuations()
             } else {
                 opt
             }
