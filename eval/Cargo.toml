@@ -38,15 +38,9 @@ risc0-zkvm = { version = "1.0.5", default-features = false, features = [
 # sha2-chain-jolt = { path = "../programs/sha2-chain-jolt", optional = true }
 
 # powdr
-
-# TODO: remove
-# powdr-number = { git = "https://github.com/powdr-labs/powdr.git", branch = "tmp-submachine-degrees", optional = true }
-# powdr-riscv = { git = "https://github.com/powdr-labs/powdr.git", branch = "tmp-submachine-degrees", optional = true }
-# powdr-pipeline = { git = "https://github.com/powdr-labs/powdr.git", branch = "tmp-submachine-degrees", optional = true }
-
-powdr-number = { git = "https://github.com/powdr-labs/powdr.git", optional = true }
-powdr-riscv = { git = "https://github.com/powdr-labs/powdr.git", optional = true }
-powdr-pipeline = { git = "https://github.com/powdr-labs/powdr.git", optional = true }
+powdr-number = { git = "https://github.com/powdr-labs/powdr.git", tag = "v0.1.1", optional = true }
+powdr-riscv = { git = "https://github.com/powdr-labs/powdr.git", tag = "v0.1.1", optional = true }
+powdr-pipeline = { git = "https://github.com/powdr-labs/powdr.git", tag = "v0.1.1", optional = true }
 
 # so we can enable the avx512 feature
 starky = { git = "https://github.com/0xEigenLabs/eigen-zkvm.git", rev = "cf405b2e2cecb8567cfd083a55936b71722276d5", optional = true }
@@ -64,7 +58,7 @@ risc0 = ["risc0-zkvm"]
 cuda = ["dep:sp1-server", "risc0-zkvm/cuda"]
 powdr-estark = ["powdr-pipeline/estark-polygon", "powdr-riscv", "powdr-number"]
 powdr-plonky3 = ["powdr-pipeline/plonky3", "powdr-riscv", "powdr-number"]
-avx512 = ["powdr-pipeline/simd"]
+avx512 = ["powdr-pipeline/plonky3-simd", "powdr-pipeline/estark-starky-simd"]
 
 
 # # jolt
