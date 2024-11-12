@@ -48,8 +48,11 @@ fn run<T: FieldElement>(mut pipeline: powdr_pipeline::Pipeline<T>) -> Performanc
         let mut writer = std::fs::File::create(format!("{OUTPUT_DIR}/vkey.bin")).unwrap();
         pipeline.export_verification_key(&mut writer).unwrap();
     }
+
+    let publics = pipeline.publics().unwrap().iter().map(|(_name, v)| v.unwrap()).collect();
+
     let (_, core_verification_time) = time_operation(|| {
-        pipeline.verify(proof, &[vec![]]).unwrap();
+        pipeline.verify(proof, &[publics]).unwrap();
     });
 
     PerformanceReport {
@@ -104,12 +107,14 @@ fn run_with_continuations<T: FieldElement>(
     let mut core_proof_size = 0;
     let mut proofs = vec![];
     println!("proving chunks...");
+    let mut publics: Vec<Vec<_>> = vec![];
     for chunk in 0..num_chunks {
         let witness_dir: PathBuf = format!("{OUTPUT_DIR}/chunk_{chunk}").into();
         pipeline = pipeline.read_witness(&witness_dir).unwrap().with_output(witness_dir, true);
         let (proof, chunk_duration) = time_operation(|| pipeline.compute_proof().unwrap().clone());
         println!("chunk {chunk} proof time: {chunk_duration:?}");
         let chunk_size = proof.len();
+        publics.push(pipeline.publics().unwrap().iter().map(|(_name, v)| v.unwrap()).collect());
         proofs.push(proof);
         println!("chunk size: {chunk_size}");
         core_proof_duration += chunk_duration;
@@ -128,7 +133,7 @@ fn run_with_continuations<T: FieldElement>(
     println!("verifying chunks...");
     for chunk in 0..num_chunks {
         let (_, time) = time_operation(|| {
-            pipeline.verify(&proofs[chunk], &[vec![]]).unwrap();
+            pipeline.verify(&proofs[chunk], &[publics[chunk].clone()]).unwrap();
         });
         println!("chunk {chunk} verification time: {time:?}");
         core_verification_time += time;
