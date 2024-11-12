@@ -38,9 +38,9 @@ risc0-zkvm = { version = "1.0.5", default-features = false, features = [
 # sha2-chain-jolt = { path = "../programs/sha2-chain-jolt", optional = true }
 
 # powdr
-powdr-number = { git = "https://github.com/powdr-labs/powdr.git", rev = "e8221e25", optional = true }
-powdr-riscv = { git = "https://github.com/powdr-labs/powdr.git", rev = "e8221e25", optional = true }
-powdr-pipeline = { git = "https://github.com/powdr-labs/powdr.git", rev = "e8221e25", optional = true }
+powdr-number = { git = "https://github.com/powdr-labs/powdr.git", rev = "ff054afd454d5a93c85546d76fc0e6445524e003", optional = true }
+powdr-riscv = { git = "https://github.com/powdr-labs/powdr.git", rev = "ff054afd454d5a93c85546d76fc0e6445524e003", optional = true }
+powdr-pipeline = { git = "https://github.com/powdr-labs/powdr.git", rev = "ff054afd454d5a93c85546d76fc0e6445524e003", optional = true }
 
 # so we can enable the avx512 feature
 starky = { git = "https://github.com/0xEigenLabs/eigen-zkvm.git", rev = "cf405b2e2cecb8567cfd083a55936b71722276d5", optional = true }
