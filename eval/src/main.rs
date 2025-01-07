@@ -1,5 +1,5 @@
-#[cfg(feature = "jolt-zkvm")]
-mod jolt;
+// #[cfg(feature = "jolt-zkvm")]
+// mod jolt;
 
 #[cfg(any(feature = "powdr-estark", feature = "powdr-plonky3"))]
 mod powdr;
@@ -97,15 +97,15 @@ fn main() {
                 }
             }
         }
-        ProverId::JoltZkvm => {
-            cfg_if! {
-                if #[cfg(feature = "jolt-zkvm")] {
-                    jolt::JoltPerformanceReportGenerator::get_report(&args)
-                } else {
-                    unreachable!()
-                }
-            }
-        }
+        // ProverId::JoltZkvm => {
+        //     cfg_if! {
+        //         if #[cfg(feature = "jolt-zkvm")] {
+        //             jolt::JoltPerformanceReportGenerator::get_report(&args)
+        //         } else {
+        //             unreachable!()
+        //         }
+        //     }
+        // }
         ProverId::PowdrEstark => {
             cfg_if! {
                 if #[cfg(feature = "powdr-estark")] {
