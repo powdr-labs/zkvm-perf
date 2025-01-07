@@ -3579,6 +3579,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "51d515d32fb182ee37cda2ccdcb92950d6a3c2893aa280e540671c2cd0f3b1d9"
 
 [[package]]
+name = "num-derive"
+version = "0.4.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ed3955f1a9c7c0c15e092f9c887db08b1fc683305fdf6eb6684f22555355e202"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.82",
+]
+
+[[package]]
 name = "num-format"
 version = "0.4.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4609,8 +4620,8 @@ dependencies = [
 
 [[package]]
 name = "powdr-airgen"
-version = "0.1.2"
-source = "git+https://github.com/powdr-labs/powdr.git?rev=ff054afd454d5a93c85546d76fc0e6445524e003#ff054afd454d5a93c85546d76fc0e6445524e003"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
 dependencies = [
  "itertools 0.13.0",
  "log",
@@ -4621,8 +4632,8 @@ dependencies = [
 
 [[package]]
 name = "powdr-analysis"
-version = "0.1.2"
-source = "git+https://github.com/powdr-labs/powdr.git?rev=ff054afd454d5a93c85546d76fc0e6445524e003#ff054afd454d5a93c85546d76fc0e6445524e003"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
 dependencies = [
  "itertools 0.13.0",
  "lazy_static",
@@ -4635,8 +4646,8 @@ dependencies = [
 
 [[package]]
 name = "powdr-asm-to-pil"
-version = "0.1.2"
-source = "git+https://github.com/powdr-labs/powdr.git?rev=ff054afd454d5a93c85546d76fc0e6445524e003#ff054afd454d5a93c85546d76fc0e6445524e003"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
 dependencies = [
  "lazy_static",
  "log",
@@ -4648,9 +4659,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "powdr-asmopt"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
+dependencies = [
+ "powdr-analysis",
+ "powdr-ast",
+ "powdr-parser",
+ "powdr-pilopt",
+]
+
+[[package]]
 name = "powdr-ast"
-version = "0.1.2"
-source = "git+https://github.com/powdr-labs/powdr.git?rev=ff054afd454d5a93c85546d76fc0e6445524e003#ff054afd454d5a93c85546d76fc0e6445524e003"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
 dependencies = [
  "auto_enums",
  "derive_more",
@@ -4665,8 +4687,8 @@ dependencies = [
 
 [[package]]
 name = "powdr-backend"
-version = "0.1.2"
-source = "git+https://github.com/powdr-labs/powdr.git?rev=ff054afd454d5a93c85546d76fc0e6445524e003#ff054afd454d5a93c85546d76fc0e6445524e003"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
 dependencies = [
  "bincode",
  "hex",
@@ -4688,6 +4710,7 @@ dependencies = [
  "powdr-pil-analyzer",
  "powdr-plonky3",
  "rand 0.8.5",
+ "rayon",
  "serde",
  "serde_json",
  "starky",
@@ -4697,13 +4720,13 @@ dependencies = [
 
 [[package]]
 name = "powdr-backend-utils"
-version = "0.1.2"
-source = "git+https://github.com/powdr-labs/powdr.git?rev=ff054afd454d5a93c85546d76fc0e6445524e003#ff054afd454d5a93c85546d76fc0e6445524e003"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
 dependencies = [
  "itertools 0.13.0",
  "log",
  "powdr-ast",
- "powdr-executor",
+ "powdr-executor-utils",
  "powdr-number",
  "powdr-parser",
  "powdr-pil-analyzer",
@@ -4711,17 +4734,20 @@ dependencies = [
 
 [[package]]
 name = "powdr-executor"
-version = "0.1.2"
-source = "git+https://github.com/powdr-labs/powdr.git?rev=ff054afd454d5a93c85546d76fc0e6445524e003#ff054afd454d5a93c85546d76fc0e6445524e003"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
 dependencies = [
+ "auto_enums",
  "bit-vec",
  "derive_more",
  "indicatif",
  "itertools 0.13.0",
  "lazy_static",
+ "libloading",
  "log",
  "num-traits",
  "powdr-ast",
+ "powdr-executor-utils",
  "powdr-jit-compiler",
  "powdr-number",
  "powdr-parser-util",
@@ -4731,9 +4757,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "powdr-executor-utils"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
+dependencies = [
+ "powdr-ast",
+ "powdr-number",
+ "serde",
+]
+
+[[package]]
 name = "powdr-importer"
-version = "0.1.2"
-source = "git+https://github.com/powdr-labs/powdr.git?rev=ff054afd454d5a93c85546d76fc0e6445524e003#ff054afd454d5a93c85546d76fc0e6445524e003"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
 dependencies = [
  "powdr-ast",
  "powdr-number",
@@ -4744,13 +4780,13 @@ dependencies = [
 
 [[package]]
 name = "powdr-isa-utils"
-version = "0.1.2"
-source = "git+https://github.com/powdr-labs/powdr.git?rev=ff054afd454d5a93c85546d76fc0e6445524e003#ff054afd454d5a93c85546d76fc0e6445524e003"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
 
 [[package]]
 name = "powdr-jit-compiler"
-version = "0.1.2"
-source = "git+https://github.com/powdr-labs/powdr.git?rev=ff054afd454d5a93c85546d76fc0e6445524e003#ff054afd454d5a93c85546d76fc0e6445524e003"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
 dependencies = [
  "itertools 0.13.0",
  "lazy_static",
@@ -4764,8 +4800,8 @@ dependencies = [
 
 [[package]]
 name = "powdr-linker"
-version = "0.1.2"
-source = "git+https://github.com/powdr-labs/powdr.git?rev=ff054afd454d5a93c85546d76fc0e6445524e003#ff054afd454d5a93c85546d76fc0e6445524e003"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
 dependencies = [
  "itertools 0.13.0",
  "lazy_static",
@@ -4775,12 +4811,13 @@ dependencies = [
  "powdr-number",
  "powdr-parser-util",
  "pretty_assertions",
+ "strum 0.24.1",
 ]
 
 [[package]]
 name = "powdr-number"
-version = "0.1.2"
-source = "git+https://github.com/powdr-labs/powdr.git?rev=ff054afd454d5a93c85546d76fc0e6445524e003#ff054afd454d5a93c85546d76fc0e6445524e003"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
 dependencies = [
  "ark-bn254",
  "ark-ff 0.4.2",
@@ -4802,8 +4839,8 @@ dependencies = [
 
 [[package]]
 name = "powdr-parser"
-version = "0.1.2"
-source = "git+https://github.com/powdr-labs/powdr.git?rev=ff054afd454d5a93c85546d76fc0e6445524e003#ff054afd454d5a93c85546d76fc0e6445524e003"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
 dependencies = [
  "derive_more",
  "lalrpop",
@@ -4817,8 +4854,8 @@ dependencies = [
 
 [[package]]
 name = "powdr-parser-util"
-version = "0.1.2"
-source = "git+https://github.com/powdr-labs/powdr.git?rev=ff054afd454d5a93c85546d76fc0e6445524e003#ff054afd454d5a93c85546d76fc0e6445524e003"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
 dependencies = [
  "codespan-reporting",
  "lalrpop-util",
@@ -4828,8 +4865,8 @@ dependencies = [
 
 [[package]]
 name = "powdr-pil-analyzer"
-version = "0.1.2"
-source = "git+https://github.com/powdr-labs/powdr.git?rev=ff054afd454d5a93c85546d76fc0e6445524e003#ff054afd454d5a93c85546d76fc0e6445524e003"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
 dependencies = [
  "itertools 0.13.0",
  "lazy_static",
@@ -4842,9 +4879,10 @@ dependencies = [
 
 [[package]]
 name = "powdr-pilopt"
-version = "0.1.2"
-source = "git+https://github.com/powdr-labs/powdr.git?rev=ff054afd454d5a93c85546d76fc0e6445524e003#ff054afd454d5a93c85546d76fc0e6445524e003"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
 dependencies = [
+ "itertools 0.13.0",
  "log",
  "powdr-ast",
  "powdr-number",
@@ -4853,8 +4891,8 @@ dependencies = [
 
 [[package]]
 name = "powdr-pipeline"
-version = "0.1.2"
-source = "git+https://github.com/powdr-labs/powdr.git?rev=ff054afd454d5a93c85546d76fc0e6445524e003#ff054afd454d5a93c85546d76fc0e6445524e003"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
 dependencies = [
  "itertools 0.13.0",
  "log",
@@ -4863,6 +4901,7 @@ dependencies = [
  "powdr-airgen",
  "powdr-analysis",
  "powdr-asm-to-pil",
+ "powdr-asmopt",
  "powdr-ast",
  "powdr-backend",
  "powdr-executor",
@@ -4881,9 +4920,10 @@ dependencies = [
 
 [[package]]
 name = "powdr-plonky3"
-version = "0.1.2"
-source = "git+https://github.com/powdr-labs/powdr.git?rev=ff054afd454d5a93c85546d76fc0e6445524e003#ff054afd454d5a93c85546d76fc0e6445524e003"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
 dependencies = [
+ "indexmap 1.9.3",
  "itertools 0.13.0",
  "lazy_static",
  "p3-air 0.1.0",
@@ -4908,9 +4948,9 @@ dependencies = [
  "p3-uni-stark 0.1.0",
  "p3-util 0.1.0",
  "powdr-ast",
- "powdr-backend-utils",
- "powdr-executor",
+ "powdr-executor-utils",
  "powdr-number",
+ "powdr-riscv-runtime",
  "rand 0.8.5",
  "rand_chacha 0.3.1",
  "serde",
@@ -4919,8 +4959,8 @@ dependencies = [
 
 [[package]]
 name = "powdr-riscv"
-version = "0.1.2"
-source = "git+https://github.com/powdr-labs/powdr.git?rev=ff054afd454d5a93c85546d76fc0e6445524e003#ff054afd454d5a93c85546d76fc0e6445524e003"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
 dependencies = [
  "gimli 0.31.1",
  "goblin",
@@ -4946,37 +4986,48 @@ dependencies = [
 
 [[package]]
 name = "powdr-riscv-executor"
-version = "0.1.2"
-source = "git+https://github.com/powdr-labs/powdr.git?rev=ff054afd454d5a93c85546d76fc0e6445524e003#ff054afd454d5a93c85546d76fc0e6445524e003"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
 dependencies = [
  "inferno",
  "itertools 0.13.0",
  "k256",
  "log",
  "num-bigint 0.4.6",
+ "num-derive",
  "num-traits",
  "p3-field 0.1.0",
  "p3-goldilocks",
  "p3-symmetric 0.1.0",
- "powdr-analysis",
  "powdr-ast",
  "powdr-executor",
- "powdr-importer",
  "powdr-number",
  "powdr-parser",
  "powdr-plonky3",
+ "rayon",
  "rustc-demangle",
 ]
 
 [[package]]
+name = "powdr-riscv-runtime"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
+dependencies = [
+ "getrandom 0.2.15",
+ "powdr-riscv-syscalls",
+ "serde",
+ "serde_cbor",
+]
+
+[[package]]
 name = "powdr-riscv-syscalls"
-version = "0.1.2"
-source = "git+https://github.com/powdr-labs/powdr.git?rev=ff054afd454d5a93c85546d76fc0e6445524e003#ff054afd454d5a93c85546d76fc0e6445524e003"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
 
 [[package]]
 name = "powdr-schemas"
-version = "0.1.2"
-source = "git+https://github.com/powdr-labs/powdr.git?rev=ff054afd454d5a93c85546d76fc0e6445524e003#ff054afd454d5a93c85546d76fc0e6445524e003"
+version = "0.1.3"
+source = "git+https://github.com/powdr-labs/powdr.git?tag=v0.1.3#340858edd11b67de2b35f84bed6e2bed6decff5d"
 dependencies = [
  "powdr-ast",
  "powdr-number",
