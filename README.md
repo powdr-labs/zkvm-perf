@@ -1,6 +1,6 @@
-# SP1 Benchmarks
+# ZkVM Benchmarks
 
-A suite of benchmarks to evaluate SP1's performance.
+A suite of benchmarks to compare the performance of different ZkVMs.
 
 ## Setup
 
@@ -42,7 +42,7 @@ Install the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-
 
 ## Usage
 
-You can conduct a sweep of the benchmarks by running either of the following commands:
+You can edit the `sweep.py` file and execute it to run a sweep of benchmarks (results will be under the `benchmarks` folder):
 
 ```sh
 python3 sweep.py
@@ -51,7 +51,7 @@ python3 sweep.py
 To run a single benchmark, you can run:
 
 ```sh
-./eval.sh (loop|fibonacci|ssz_withdrawals|tendermint) (sp1|risc0|jolt-zkvm) (poseidon|sha256|blake3|...)
+./eval.sh (loop|fibonacci|ssz_withdrawals|tendermint) (sp1|risc0|powdr-plonky3|powdr-estark) (poseidon|sha256|blake3|...)
 ```
 
 Note that right now only poseidion is supported for all zkVMs, since we are interested in also profiling recursion.
@@ -62,16 +62,15 @@ Example SP1:
 ./eval.sh fibonacci sp1 poseidon 22 benchmark
 ```
 
-Example JOLT:
-
-```sh
-./eval.sh fibonacci jolt-zkvm poseidon 22 benchmark
-```
-
 Example Risc0:
 
 ```sh
 ./eval.sh fibonacci risc0 poseidon 22 benchmark
+```
+
+Example Powdr:
+```sh
+./eval.sh fibonacci powdr-plonky3 poseidon 22 benchmark
 ```
 
 Note for benchmarking the Reth program, you must also pass in a block number:
