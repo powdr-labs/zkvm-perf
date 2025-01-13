@@ -2,18 +2,15 @@ use std::fs;
 
 use crate::{utils::*, EvalArgs, PerformanceReport, ProgramId};
 
-use sp1_core::{runtime::SP1Context, utils::SP1ProverOpts};
-use sp1_prover::{components::DefaultProverComponents, utils::get_cycles, SP1Prover, SP1Stdin};
-
-#[cfg(feature = "cuda")]
-use sp1_server::SP1ProverServer;
+use sp1_prover::components::DefaultProverComponents;
+use sp1_sdk::{utils, SP1Context, SP1Prover, SP1Stdin};
 
 pub struct SP1Evaluator;
 
 impl SP1Evaluator {
     pub fn eval(args: &EvalArgs) -> PerformanceReport {
         // Setup the logger.
-        sp1_core::utils::setup_logger();
+        utils::setup_logger();
 
         // Set enviroment variables to configure the prover.
         std::env::set_var("SHARD_SIZE", format!("{}", 1 << args.shard_size));
@@ -44,34 +41,25 @@ impl SP1Evaluator {
         // Get the elf.
         let elf_path = get_elf(args);
         let elf = fs::read(elf_path).unwrap();
-        let cycles = get_cycles(&elf, &stdin);
 
         let prover = SP1Prover::<DefaultProverComponents>::new();
-
-        #[cfg(feature = "cuda")]
-        let server = SP1ProverServer::new();
 
         // Setup the program.
         let ((pk, vk), setup_duration) = time_operation(|| prover.setup(&elf));
 
         // Execute the program.
         let context = SP1Context::default();
-        let (_, execution_duration) =
-            time_operation(|| prover.execute(&elf, &stdin, context.clone()));
+        let ((_, report), execution_duration) =
+            time_operation(|| prover.execute(&elf, &stdin, context.clone()).unwrap());
+
+        let cycles = report.total_instruction_count();
 
         // Setup the prover opionts.
-        #[cfg(not(feature = "cuda"))]
-        let opts = SP1ProverOpts::default();
+        let opts = Default::default();
 
-        // Generate the core proof (CPU).
-        #[cfg(not(feature = "cuda"))]
+        // Generate the core proof.
         let (core_proof, prove_core_duration) =
             time_operation(|| prover.prove_core(&pk, &stdin, opts, context).unwrap());
-
-        // Generate the core proof (CUDA).
-        #[cfg(feature = "cuda")]
-        let (core_proof, prove_core_duration) =
-            time_operation(|| server.prove_core(&pk, &stdin).unwrap());
 
         let num_shards = core_proof.proof.0.len();
 
@@ -81,13 +69,8 @@ impl SP1Evaluator {
             prover.verify(&core_proof.proof, &vk).expect("Proof verification failed")
         });
 
-        #[cfg(not(feature = "cuda"))]
         let (compress_proof, compress_duration) =
             time_operation(|| prover.compress(&vk, core_proof, vec![], opts).unwrap());
-
-        #[cfg(feature = "cuda")]
-        let (compress_proof, compress_duration) =
-            time_operation(|| server.compress(&vk, core_proof, vec![]).unwrap());
 
         let compress_bytes = bincode::serialize(&compress_proof).unwrap();
 
