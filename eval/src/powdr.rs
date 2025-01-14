@@ -276,10 +276,7 @@ fn compile_program<F: FieldElement>(
 ) -> Option<(Option<PathBuf>, String)> {
     println!("compiling {} (continuations={with_continuations})...", crate_path.to_string());
 
-    // we shift it by 2 (i.e., multiply by 4) because, in powdr,
-    // there is a division by 4 to get the trace that fits inside a chunk (due to the
-    // expectation of a memory machine 4x larger than main)
-    let max_degree_log = shard_size + 2;
+    let max_degree_log = shard_size;
 
     let output_dir: PathBuf = OUTPUT_DIR.into();
     let force_overwrite = true;
