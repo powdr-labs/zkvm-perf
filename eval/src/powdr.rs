@@ -4,7 +4,10 @@ use std::{
 };
 
 use powdr_number::{FieldElement, GoldilocksField, KnownField};
-use powdr_pipeline::Pipeline;
+use powdr_pipeline::{
+    pipeline::{DegreeMode, LinkerMode, LinkerParams},
+    Pipeline,
+};
 
 use cfg_if::cfg_if;
 
@@ -221,6 +224,10 @@ impl PowdrEvaluator {
             .from_asm_string(asm, path)
             .with_output(dir.into(), true)
             .with_prover_inputs(vec![])
+            .with_linker_params(LinkerParams {
+                mode: LinkerMode::Native,
+                degree_mode: DegreeMode::Vadcop,
+            })
             // .with_setup_file()
             // .with_pil_object()
             .with_backend(backend, None);
